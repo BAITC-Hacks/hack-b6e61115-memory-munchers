@@ -9,7 +9,8 @@ public sealed class OpenAiResponsesClient(HttpClient httpClient, IOptions<OpenAi
     public async Task<AgentModelResponse> RespondAsync(AgentModelRequest request, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(options.Value.ApiKey))
-            throw new AgentException("provider_not_configured", "Set OpenAI__ApiKey before running an agent.", 503);
+            throw new AgentException("provider_not_configured",
+                "Set OpenAI:ApiKey in appsettings.json or the OpenAI__ApiKey environment variable before running an agent.", 503);
 
         using var httpRequest = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/responses");
         httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", options.Value.ApiKey);

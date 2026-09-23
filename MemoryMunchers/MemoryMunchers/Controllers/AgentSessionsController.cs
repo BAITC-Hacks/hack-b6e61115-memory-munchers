@@ -30,8 +30,8 @@ public sealed class AgentSessionsController(IAgentSessionService sessions, IAgen
 }
 
 public sealed record CreateAgentSessionRequest(
-    [property: Required, StringLength(100)] string AgentId,
-    [property: StringLength(200)] string? Title = null,
-    [property: StringLength(8000)] string? AdditionalInstructions = null);
+    [Required, StringLength(100)] string AgentId,
+    [StringLength(200)] string? Title = null,
+    [StringLength(8000)] string? AdditionalInstructions = null);
 
-public sealed record RunAgentRequest([property: Required, StringLength(32000)] string Message);
+public sealed record RunAgentRequest([Required, StringLength(32000)] string Message);

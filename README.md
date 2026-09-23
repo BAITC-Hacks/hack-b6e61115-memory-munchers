@@ -19,7 +19,15 @@ The page calls `GET /api/agents`, `POST /api/agent-sessions`, `GET /api/agent-se
 
 ## OpenAI agent access
 
-The web API registers the agent workflow through `AddAgenticWorkflow` and calls the OpenAI Responses API. Configure the API key with the `OpenAI__ApiKey` environment variable (or .NET user secrets).
+The web API registers the agent workflow through `AddAgenticWorkflow` and calls the OpenAI Responses API. Create an API key using the [OpenAI quickstart](https://developers.openai.com/api/docs/quickstart), then set `OpenAI:ApiKey` in `MemoryMunchers/MemoryMunchers/appsettings.json`. Replace the empty `ApiKey` value in the existing `OpenAI` section, keeping its other settings:
+
+```json
+"ApiKey": "your-api-key-here"
+```
+
+Restart the API after setting the key. Keep the real key out of commits and frontend code. The `OpenAI__ApiKey` environment variable is still supported and overrides the value in `appsettings.json`.
+
+If the key is empty, agent runs return HTTP 503 with `provider_not_configured` and setup instructions. A generic HTTP 500 response does not identify the cause; check the API's server logs for the underlying exception and the response's `traceId`.
 
 Defaults in `MemoryMunchers/MemoryMunchers/appsettings.json` use [GPT-6 Sol](https://developers.openai.com/api/docs/models/gpt-6-sol) with its maximum output budget and reasoning effort:
 
