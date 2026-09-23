@@ -9,6 +9,21 @@ This is a dependency-free sample page for `GET /WeatherForecast`.
 2. In another terminal, serve this folder on port 5500 with `python -m http.server 5500 --directory frontend`.
 3. Open `http://localhost:5500` in a browser.
 
+## Product catalog UI
+
+Open `http://localhost:5500/products.html`, or choose **Products** on the forecast page. The page defaults to `http://localhost:5187`; expand **API connection** to change it. Run the API with PostgreSQL available using the instructions above. The new `Products` table is created by the API's existing startup migration step.
+
+On opening or refreshing, the page checks the database against `MemoryMunchers/MemoryMunchers/nursultan_ekt_catalog.csv` (currently **12,853 unique products**). Missing products are imported automatically, then displayed with server-side pagination of **20, 50, or 100** rows. The expected count comes from the CSV, and matching IDs are checked too, so an equal count cannot hide missing products. Existing records are retained; unexpected IDs are reported as a count mismatch. Imports only add missing IDs, and concurrent or repeated imports do not create duplicates. An import is transactional, so a failure cannot leave a partially saved batch.
+
+All CSV columns are stored, including multiline descriptions, category paths, JSON specifications, URLs, and nullable prices. The CSV is copied to build and publish output and is read from the API content root. Product prices reflect the supplied file, not live prices.
+
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /api/products/status` | Expected/database/missing/unexpected counts, `isComplete`, and `requiresImport`. |
+| `POST /api/products/import` | Add missing CSV products; return updated counts and `importedCount`. |
+| `GET /api/products?page=1&pageSize=20` | Products ordered by ID, with `items`, `page`, `pageSize`, `totalCount`, and `totalPages`. Page sizes are limited to 20, 50, and 100; pages beyond the end return the last page. |
+| `GET /api/products/{id}` | All saved fields for one product. |
+
 ## Agent chat UI
 
 Open `http://localhost:5500/agents.html`, or choose **Agent chat** on the forecast page. The page uses the same static server as the forecast UI and defaults to the API's HTTP launch profile at `http://localhost:5187`. Expand **API connection** to change this address; it is remembered in your browser. For the HTTPS launch profile, use `https://localhost:7147` and trust the development certificate with `dotnet dev-certs https --trust`.

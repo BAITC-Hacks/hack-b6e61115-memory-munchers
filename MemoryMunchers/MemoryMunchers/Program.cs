@@ -1,11 +1,14 @@
 using MemoryMunchers.Agents;
 using MemoryMunchers.Persistence;
+using MemoryMunchers.Products;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MemoryMunchersDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("MemoryMunchers")));
 builder.Services.AddAgenticWorkflow(builder.Configuration);
+builder.Services.AddScoped<ProductCatalogReader>();
+builder.Services.AddScoped<ProductCatalogService>();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<AgentExceptionHandler>();
 

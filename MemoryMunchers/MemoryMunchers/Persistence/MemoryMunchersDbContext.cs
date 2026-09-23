@@ -1,11 +1,12 @@
 using MemoryMunchers.Agents.Persistence;
+using MemoryMunchers.Products;
 using Microsoft.EntityFrameworkCore;
 
 namespace MemoryMunchers.Persistence;
 
 /// <summary>
 /// EF Core database context for the Memory Munchers API.
-/// Stores forecasts and durable agent conversations.
+/// Stores forecasts, products, and durable agent conversations.
 /// </summary>
 public sealed class MemoryMunchersDbContext(DbContextOptions<MemoryMunchersDbContext> options)
     : DbContext(options)
@@ -13,9 +14,16 @@ public sealed class MemoryMunchersDbContext(DbContextOptions<MemoryMunchersDbCon
     public DbSet<WeatherForecast> WeatherForecasts => Set<WeatherForecast>();
     public DbSet<AgentSession> AgentSessions => Set<AgentSession>();
     public DbSet<AgentRun> AgentRuns => Set<AgentRun>();
+    public DbSet<Product> Products => Set<Product>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.HasKey(product => product.Id);
+            entity.Property(product => product.Id).ValueGeneratedNever();
+            entity.Property(product => product.SpecificationsJson).HasColumnType("jsonb");
+        });
         modelBuilder.Entity<AgentSession>(entity =>
         {
             entity.HasKey(session => session.Id);
