@@ -1,10 +1,7 @@
-using MemoryMunchers.AgenticAccess;
 using MemoryMunchers.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddAgenticAccess(builder.Configuration);
 builder.Services.AddDbContext<MemoryMunchersDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("MemoryMunchers")));
 
