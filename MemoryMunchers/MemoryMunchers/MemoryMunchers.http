@@ -1,0 +1,6 @@
+@MemoryMunchers_HostAddress = http://localhost:5187
+
+GET {{MemoryMunchers_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
