@@ -7,6 +7,8 @@ public sealed class Product
     public string Code { get; set; } = "";
     public string SupplierArticle { get; set; } = "";
     public string Name { get; set; } = "";
+    [System.Text.Json.Serialization.JsonIgnore]
+    public string SearchText { get; private set; } = "";
     public string Brand { get; set; } = "";
     public string Category { get; set; } = "";
     public string CategoryPath { get; set; } = "";

@@ -7,6 +7,8 @@ public sealed class AgentExceptionHandler(IProblemDetailsService problemDetails)
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
+        if (exception is AgentToolInputException input)
+            exception = new AgentException("invalid_input", input.Message, 422, input);
         if (exception is not AgentException agentException) return false;
 
         httpContext.Response.StatusCode = agentException.StatusCode;

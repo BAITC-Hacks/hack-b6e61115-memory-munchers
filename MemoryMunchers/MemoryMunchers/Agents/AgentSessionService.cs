@@ -2,11 +2,12 @@ using System.Text.Json;
 using MemoryMunchers.Agents.OpenAI;
 using MemoryMunchers.Agents.Persistence;
 using Microsoft.Extensions.Options;
+using MemoryMunchers.Shopping;
 
 namespace MemoryMunchers.Agents;
 
 public sealed class AgentSessionService(IAgentCatalog catalog, IAgentToolRegistry tools,
-    IAgentSessionStore store, IOptions<OpenAiOptions> openAiOptions, TimeProvider clock) : IAgentSessionService
+    IAgentSessionStore store, IOptions<OpenAiOptions> openAiOptions, TimeProvider clock, ShopperContext shopper) : IAgentSessionService
 {
     public async Task<AgentSessionDetails> CreateAsync(string agentId, string? title = null,
         string? additionalInstructions = null, CancellationToken cancellationToken = default)
@@ -18,6 +19,7 @@ public sealed class AgentSessionService(IAgentCatalog catalog, IAgentToolRegistr
         tools.Resolve(definition.ToolNames);
         var session = new AgentSession
         {
+            ShopperId = shopper.Id,
             AgentId = definition.Id,
             Title = title?.Trim(),
             Instructions = string.IsNullOrWhiteSpace(additionalInstructions) ? definition.Instructions

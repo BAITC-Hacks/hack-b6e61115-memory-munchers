@@ -6,6 +6,8 @@ public sealed class AgentRun
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public Guid SessionId { get; set; }
+    public Guid? ClientRequestId { get; set; }
+    public string? RequestHash { get; set; }
     public AgentRunStatus Status { get; set; } = AgentRunStatus.Running;
     public string Input { get; set; } = "";
     public string? Output { get; set; }

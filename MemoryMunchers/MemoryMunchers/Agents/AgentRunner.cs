@@ -1,16 +1,24 @@
 using System.Text.Json;
 using MemoryMunchers.Agents.Persistence;
 using Microsoft.Extensions.Options;
+using MemoryMunchers.Shopping;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MemoryMunchers.Agents;
 
 public sealed class AgentRunner(IAgentSessionStore store, IAgentSessionLock sessionLock,
     IAgentToolRegistry registry, IAgentModelClient model, IOptions<AgentOptions> options,
-    TimeProvider clock, ILogger<AgentRunner> logger) : IAgentRunner
+    TimeProvider clock, ILogger<AgentRunner> logger, AttachmentService attachments, BasketService basket,
+    IOptions<ShoppingOptions> shopping, AgentEventSink events) : IAgentRunner
 {
-    public async Task<AgentRunResult> RunAsync(Guid sessionId, string message,
+    public Task<AgentRunResult> RunAsync(Guid sessionId, string message, CancellationToken cancellationToken = default) =>
+        RunAsync(sessionId, new AgentRunInput(message), cancellationToken);
+
+    public async Task<AgentRunResult> RunAsync(Guid sessionId, AgentRunInput input,
         CancellationToken cancellationToken = default)
     {
+        var message = input.Message;
         if (string.IsNullOrWhiteSpace(message) || message.Length > 32_000)
             throw new AgentException("invalid_message", "A message between 1 and 32000 characters is required.", 400);
 
@@ -21,6 +29,27 @@ public sealed class AgentRunner(IAgentSessionStore store, IAgentSessionLock sess
             ?? throw new AgentException("session_busy", "This session already has an active run.", 409);
         var session = await store.FindAsync(sessionId, token)
             ?? throw new AgentException("session_not_found", "The agent session was not found.", 404);
+        var consultant = session.AgentId == ProductConsultant.Id;
+        if (consultant) timeout.CancelAfter(TimeSpan.FromSeconds(shopping.Value.RunTimeoutSeconds));
+        var requestHash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(ShopJson.Write(input))));
+        if (input.ClientRequestId.HasValue)
+        {
+            var existing = session.Runs.SingleOrDefault(r => r.ClientRequestId == input.ClientRequestId);
+            if (existing != null)
+            {
+                if (existing.RequestHash != requestHash) throw new AgentException("request_conflict", "Этот ID уже использован для другого сообщения.", 409);
+                if (existing.Status == AgentRunStatus.Completed) return existing.ToResult();
+                if (existing.Status == AgentRunStatus.Running)
+                {
+                    existing.Status = AgentRunStatus.Failed;
+                    existing.ErrorCode = "run_interrupted";
+                    existing.ErrorMessage = "Предыдущий запрос был прерван. Обновите диалог перед повторной отправкой.";
+                    existing.CompletedAt = clock.GetUtcNow();
+                    await store.SaveAsync(token);
+                }
+                throw new AgentException(existing.ErrorCode ?? "run_failed", existing.ErrorMessage ?? "Запрос завершился ошибкой. Отправьте новое сообщение.", 409);
+            }
+        }
         var tools = registry.Resolve(JsonSerializer.Deserialize<string[]>(session.ToolNamesJson)!);
         var allowedTools = tools.ToDictionary(tool => tool.Definition.Name, StringComparer.Ordinal);
         var history = JsonSerializer.Deserialize<List<JsonElement>>(session.HistoryJson)!;
@@ -35,9 +64,13 @@ public sealed class AgentRunner(IAgentSessionStore store, IAgentSessionLock sess
         }
         AgentHistory.ClosePendingToolCalls(history);
 
-        var run = new AgentRun { SessionId = sessionId, Input = message, StartedAt = clock.GetUtcNow() };
+        var parts = new List<JsonElement> { JsonSerializer.SerializeToElement(new { type = "input_text", text = message }) };
+        if (input.ProductId.HasValue) parts.Add(JsonSerializer.SerializeToElement(new { type = "input_text", text = $"Контекст страницы: выбран товар ID {input.ProductId.Value}. Проверь его через get_product_details." }));
+        parts.AddRange(await attachments.PartsAsync(sessionId, input.AttachmentIds ?? [], token));
+        var run = new AgentRun { SessionId = sessionId, Input = message, StartedAt = clock.GetUtcNow(),
+            ClientRequestId = input.ClientRequestId, RequestHash = requestHash };
         session.Runs.Add(run);
-        history.Add(AgentHistory.UserMessage(message));
+        history.Add(JsonSerializer.SerializeToElement(new { role = "user", content = parts }));
 
         try
         {
@@ -46,8 +79,18 @@ public sealed class AgentRunner(IAgentSessionStore store, IAgentSessionLock sess
                 token.ThrowIfCancellationRequested();
                 run.ModelCalls++;
                 await CheckpointAsync(token);
-                var response = await model.RespondAsync(new AgentModelRequest(session.Model, session.Instructions,
-                    history.ToArray(), tools.Select(tool => tool.Definition).ToArray()), token);
+                await events.PublishAsync("status", new { message = "Готовлю ответ…", resetText = true }, token);
+                var instructions = session.Instructions;
+                if (consultant)
+                {
+                    var currentBasket = await basket.GetAsync(token);
+                    instructions += "\nТекущее состояние корзины (данные сервера): " + ShopJson.Write(new { currentBasket.Version,
+                        items = currentBasket.Items.Select(i => new { i.Product.Id, i.Product.Name, i.Quantity }) });
+                }
+                var context = consultant ? RecentHistory(history) : history.ToArray();
+                var response = await model.RespondAsync(new AgentModelRequest(session.Model, instructions,
+                    await attachments.ResolveAsync(context, token), tools.Select(tool => tool.Definition).ToArray(),
+                    consultant ? shopping.Value.MaxOutputTokens : null, consultant ? shopping.Value.ReasoningEffort : null), token);
 
                 history.AddRange(response.OutputItems);
                 await CheckpointAsync(token);
@@ -71,7 +114,8 @@ public sealed class AgentRunner(IAgentSessionStore store, IAgentSessionLock sess
                 {
                     token.ThrowIfCancellationRequested();
                     run.ToolCalls++;
-                    var output = await ExecuteToolAsync(call, allowedTools, new(sessionId, run.Id), token);
+                    await events.PublishAsync("status", new { message = call.Name == "prepare_basket_addition" ? "Проверяю количество и готовлю подтверждение…" : "Проверяю данные каталога…", resetText = false }, token);
+                    var output = await ExecuteToolAsync(call, allowedTools, new(sessionId, run.Id, call.CallId), token);
                     history.Add(AgentHistory.ToolOutput(call.CallId, output));
                     await CheckpointAsync(token);
                 }
@@ -130,6 +174,9 @@ public sealed class AgentRunner(IAgentSessionStore store, IAgentSessionLock sess
         }
         catch (JsonException) { return Error("invalid_arguments", "Tool arguments must be valid JSON matching the tool schema."); }
         catch (AgentToolInputException exception) { return Error("invalid_arguments", exception.Message); }
+        catch (AgentException exception) { return Error(exception.Code, exception.Message); }
+        catch (Exception exception) when (exception is InvalidOperationException or FormatException or OverflowException)
+        { return Error("invalid_arguments", "Tool arguments do not match the schema."); }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { throw; }
         catch (Exception exception)
         {
@@ -139,4 +186,12 @@ public sealed class AgentRunner(IAgentSessionStore store, IAgentSessionLock sess
     }
 
     private static string Error(string code, string message) => JsonSerializer.Serialize(new { error = code, message });
+
+    private static JsonElement[] RecentHistory(List<JsonElement> history)
+    {
+        var boundaries = history.Select((item, index) => (item, index))
+            .Where(x => x.item.TryGetProperty("role", out var role) && role.GetString() == "user").Select(x => x.index).ToArray();
+        // Cut only at complete user-turn boundaries, retaining tool calls and their outputs together.
+        return history.Skip(boundaries.Length > 12 ? boundaries[^12] : 0).ToArray();
+    }
 }

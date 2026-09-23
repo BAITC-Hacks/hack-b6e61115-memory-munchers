@@ -106,6 +106,10 @@ function renderProducts(products) {
     code.className = 'product-code';
     code.textContent = `${product.code || 'Без кода'} · ИД ${product.id}`;
     productCell.append(name, code);
+    const ask = document.createElement('button');
+    ask.type = 'button'; ask.className = 'ask-product'; ask.textContent = 'Спросить о товаре';
+    ask.addEventListener('click', () => window.dispatchEvent(new CustomEvent('ask-product', { detail: { id: product.id, name: product.name } })));
+    productCell.append(ask);
     row.append(productCell);
     const price = value => value == null ? '—' : `${priceFormat.format(value)} ${product.currency}`.trim();
     for (const [value, className] of [
@@ -213,6 +217,7 @@ ui['connection-form'].addEventListener('submit', event => {
   catch (error) { notice(error.message, 'error'); return; }
   ui['connection-label'].textContent = state.apiUrl;
   try { localStorage.setItem(PRODUCTS_API_STORAGE_KEY, state.apiUrl); } catch { /* Storage may be disabled. */ }
+  window.dispatchEvent(new CustomEvent('products-api-changed', { detail: state.apiUrl }));
   initializeCatalog();
 });
 

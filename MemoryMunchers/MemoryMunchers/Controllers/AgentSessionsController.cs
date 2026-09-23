@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using MemoryMunchers.Agents;
 using Microsoft.AspNetCore.Mvc;
+using MemoryMunchers.Shopping;
 
 namespace MemoryMunchers.Controllers;
 
@@ -11,6 +12,8 @@ public sealed class AgentSessionsController(IAgentSessionService sessions, IAgen
     [HttpPost]
     public async Task<ActionResult<AgentSessionDetails>> Create(CreateAgentSessionRequest request, CancellationToken cancellationToken)
     {
+        if (request.AgentId == ProductConsultant.Id)
+            throw new AgentException("use_product_chat", "Use the product chat endpoint for this agent.", 400);
         var session = await sessions.CreateAsync(request.AgentId, request.Title, request.AdditionalInstructions, cancellationToken);
         return CreatedAtAction(nameof(Get), new { sessionId = session.Id }, session);
     }
@@ -25,8 +28,12 @@ public sealed class AgentSessionsController(IAgentSessionService sessions, IAgen
         Ok(await sessions.GetAsync(sessionId, cancellationToken));
 
     [HttpPost("{sessionId:guid}/runs")]
-    public async Task<ActionResult<AgentRunResult>> Run(Guid sessionId, RunAgentRequest request, CancellationToken cancellationToken) =>
-        Ok(await runner.RunAsync(sessionId, request.Message, cancellationToken));
+    public async Task<ActionResult<AgentRunResult>> Run(Guid sessionId, RunAgentRequest request, CancellationToken cancellationToken)
+    {
+        if ((await sessions.GetAsync(sessionId, cancellationToken)).AgentId == ProductConsultant.Id)
+            throw new AgentException("use_product_chat", "Use the product chat endpoint for this session.", 400);
+        return Ok(await runner.RunAsync(sessionId, request.Message, cancellationToken));
+    }
 }
 
 public sealed record CreateAgentSessionRequest(

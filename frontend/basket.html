@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101a2b" />
+  <title>Skyline — Корзина</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./chatbot.css" />
+  <link rel="stylesheet" href="./basket.css" />
+  <script src="./shopping.js" defer></script>
+  <script src="./basket.js" defer></script>
+</head>
+<body>
+  <main class="shell basket-shell">
+    <header class="topbar"><a class="brand" href="./index.html">skyline<span class="brand-dot">.</span></a><a class="back-link" href="./index.html">← Каталог товаров</a></header>
+    <section class="intro"><div class="eyebrow">ВАШ ВЫБОР</div><h1>Корзина<span>.</span></h1><p class="intro-copy">Проверьте товары и количество перед оформлением заказа.</p></section>
+    <div class="basket-toolbar"><span id="basket-count">Загрузка…</span><button id="basket-refresh" class="refresh-button" type="button">Обновить корзину</button></div>
+    <div id="basket-status" class="status" role="status" aria-live="polite"></div>
+    <section id="basket-items" class="basket-items" aria-label="Товары в корзине" aria-busy="true"></section>
+    <section class="basket-summary content-card" aria-label="Итого"><h2>Итого</h2><div id="basket-totals"></div><p id="basket-price-note" class="shop-muted"></p><p class="shop-muted">Добавление в корзину не резервирует остатки. Цена и наличие проверяются при оформлении.</p><a id="checkout-link" class="shop-primary" hidden>Перейти к оформлению →</a><p id="checkout-note" class="shop-muted" hidden>Онлайн-оформление пока не подключено. Корзина сохранена в этом браузере.</p></section>
+  </main>
+</body>
+</html>

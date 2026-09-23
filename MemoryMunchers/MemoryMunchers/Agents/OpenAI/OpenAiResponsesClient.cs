@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace MemoryMunchers.Agents.OpenAI;
 
-public sealed class OpenAiResponsesClient(HttpClient httpClient, IOptions<OpenAiOptions> options) : IAgentModelClient
+public sealed class OpenAiResponsesClient(HttpClient httpClient, IOptions<OpenAiOptions> options, AgentEventSink events) : IAgentModelClient
 {
     public async Task<AgentModelResponse> RespondAsync(AgentModelRequest request, CancellationToken cancellationToken)
     {
@@ -25,15 +25,16 @@ public sealed class OpenAiResponsesClient(HttpClient httpClient, IOptions<OpenAi
                 parameters = tool.Parameters, strict = true
             }),
             parallel_tool_calls = false,
-            max_output_tokens = options.Value.MaxOutputTokens,
-            reasoning = new { effort = options.Value.ReasoningEffort },
+            max_output_tokens = request.MaxOutputTokens ?? options.Value.MaxOutputTokens,
+            reasoning = new { effort = request.ReasoningEffort ?? options.Value.ReasoningEffort },
+            stream = events.Write != null,
             store = false,
             include = new[] { "reasoning.encrypted_content" }
         });
 
         try
         {
-            using var response = await httpClient.SendAsync(httpRequest, cancellationToken);
+            using var response = await httpClient.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
             if (!response.IsSuccessStatusCode)
             {
                 // Provider error bodies can echo prompts or credentials; don't return them to API callers.
@@ -41,8 +42,9 @@ public sealed class OpenAiResponsesClient(HttpClient httpClient, IOptions<OpenAi
                     $"The model provider returned HTTP {(int)response.StatusCode}.", 502);
             }
 
-            using var document = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync(cancellationToken),
-                cancellationToken: cancellationToken);
+            using var document = events.Write == null
+                ? await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync(cancellationToken), cancellationToken: cancellationToken)
+                : await ReadStreamAsync(await response.Content.ReadAsStreamAsync(cancellationToken), cancellationToken);
             var root = document.RootElement;
             if (root.GetProperty("status").GetString() != "completed")
                 throw new AgentException("incomplete_model_response", "The model did not complete its response. It may have reached the output token limit.", 502);
@@ -85,4 +87,26 @@ public sealed class OpenAiResponsesClient(HttpClient httpClient, IOptions<OpenAi
 
     private static string RequiredString(JsonElement element, string name) =>
         element.GetProperty(name).GetString() ?? throw new JsonException($"Missing '{name}'.");
+
+    private async Task<JsonDocument> ReadStreamAsync(Stream stream, CancellationToken token)
+    {
+        using var reader = new StreamReader(stream);
+        while (await reader.ReadLineAsync(token) is { } line)
+        {
+            if (!line.StartsWith("data: ", StringComparison.Ordinal) || line == "data: [DONE]") continue;
+            using var item = JsonDocument.Parse(line[6..]);
+            var root = item.RootElement;
+            switch (root.GetProperty("type").GetString())
+            {
+                case "response.output_text.delta":
+                    await events.PublishAsync("delta", new { text = RequiredString(root, "delta") }, token);
+                    break;
+                case "response.completed": return JsonDocument.Parse(root.GetProperty("response").GetRawText());
+                case "response.failed":
+                case "response.incomplete":
+                case "error": throw new AgentException("provider_error", "Не удалось завершить ответ. Повторите запрос.", 502);
+            }
+        }
+        throw new AgentException("incomplete_model_response", "Поток ответа прервался. Обновите диалог.", 502);
+    }
 }

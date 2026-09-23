@@ -3,6 +3,7 @@ namespace MemoryMunchers.Agents.Persistence;
 public sealed class AgentSession
 {
     public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid? ShopperId { get; set; }
     public string AgentId { get; set; } = "";
     public string? Title { get; set; }
     public string Instructions { get; set; } = "";

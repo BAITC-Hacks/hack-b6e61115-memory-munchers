@@ -12,6 +12,7 @@ public interface IAgentCatalog
 public interface IAgentRunner
 {
     Task<AgentRunResult> RunAsync(Guid sessionId, string message, CancellationToken cancellationToken = default);
+    Task<AgentRunResult> RunAsync(Guid sessionId, AgentRunInput input, CancellationToken cancellationToken = default);
 }
 
 public interface IAgentSessionService
@@ -56,10 +57,11 @@ public interface IAgentSessionLock
 }
 
 public sealed record AgentToolDefinition(string Name, string Description, JsonElement Parameters);
-public sealed record AgentToolContext(Guid SessionId, Guid RunId);
+public sealed record AgentRunInput(string Message, Guid? ClientRequestId = null, IReadOnlyList<Guid>? AttachmentIds = null, int? ProductId = null);
+public sealed record AgentToolContext(Guid SessionId, Guid RunId, string CallId = "");
 public sealed record AgentToolCall(string CallId, string Name, string Arguments);
 public sealed record AgentModelRequest(string Model, string Instructions,
-    IReadOnlyList<JsonElement> Input, IReadOnlyList<AgentToolDefinition> Tools);
+    IReadOnlyList<JsonElement> Input, IReadOnlyList<AgentToolDefinition> Tools, int? MaxOutputTokens = null, string? ReasoningEffort = null);
 public sealed record AgentModelResponse(IReadOnlyList<JsonElement> OutputItems, string Text,
     IReadOnlyList<AgentToolCall> ToolCalls);
 public sealed record AgentRunResult(Guid SessionId, Guid RunId, string Status, string? Output,
