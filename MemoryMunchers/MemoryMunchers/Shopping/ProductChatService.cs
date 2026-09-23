@@ -6,8 +6,16 @@ using Microsoft.EntityFrameworkCore;
 namespace MemoryMunchers.Shopping;
 
 public sealed class ProductChatService(IAgentSessionService sessions, AttachmentService attachments,
-    MemoryMunchersDbContext db, BasketService basket)
+    MemoryMunchersDbContext db, BasketService basket, ShopperContext shopper)
 {
+    public async Task<object[]> ListAsync(CancellationToken token) =>
+        await db.AgentSessions.AsNoTracking()
+            .Where(s => s.ShopperId == shopper.Id && s.AgentId == ProductConsultant.Id && s.Runs.Any())
+            .OrderByDescending(s => s.UpdatedAt).ThenBy(s => s.Id).Take(50)
+            .Select(s => (object)new { s.Id, s.Title, s.CreatedAt, s.UpdatedAt, messageCount = s.Runs.Count,
+                preview = s.Runs.OrderBy(r => r.StartedAt).Select(r => r.Input).FirstOrDefault() })
+            .ToArrayAsync(token);
+
     public async Task<object> GetAsync(Guid id, CancellationToken token)
     {
         await attachments.RequireSessionAsync(id, token);

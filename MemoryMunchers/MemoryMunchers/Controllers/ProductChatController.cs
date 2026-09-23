@@ -9,6 +9,9 @@ namespace MemoryMunchers.Controllers;
 public sealed class ProductChatController(IAgentSessionService sessions, IAgentRunner runner,
     ProductChatService chat, AttachmentService attachments, AgentEventSink events, ILogger<ProductChatController> logger) : ControllerBase
 {
+    [HttpGet]
+    public async Task<IActionResult> List(CancellationToken token) => Ok(await chat.ListAsync(token));
+
     [HttpPost]
     public async Task<IActionResult> Create(CancellationToken token)
     {
