@@ -1,3 +1,37 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+.next/
+dist/
+build/
+*.db
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+data/metrics.jsonl
+data/*.pid
+data/integration-smoke*.json
+deploy/
+output/qa/
+output/submission/
+data/benchmark*.json
+data/server.pid
+.pytest_cache/
+*.log
+.DS_Store
+Thumbs.db
+
+# Сырые кэши выгрузки ekt.kz (большие, пересобираются скриптом)
+data/raw_*
+!data/raw_details.jsonl
+data/fetch.log
+
+# Existing .NET version
 # Build output
 [Bb]in/
 [Oo]bj/

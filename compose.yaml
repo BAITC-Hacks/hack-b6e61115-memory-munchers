@@ -1,0 +1,29 @@
+name: ekt-assistant
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${EKT_BIND_HOST:-127.0.0.1}:${EKT_HTTP_PORT:-8001}:8001"
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "8001"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      OPENAI_MODEL: "${OPENAI_MODEL:-gpt-5.4-mini}"
+      OPENAI_RESEARCH_MODEL: "${OPENAI_RESEARCH_MODEL:-gpt-5.4-mini}"
+      MODEL_TIMEOUT_SECONDS: "${MODEL_TIMEOUT_SECONDS:-5.2}"
+      RESPONSE_TIMEOUT_SECONDS: "${RESPONSE_TIMEOUT_SECONDS:-7.2}"
+      EKT_API_BASE: "${EKT_API_BASE:-https://ekt.kz/api}"
+      EKT_API_USER: "${EKT_API_USER:-}"
+      EKT_API_PASSWORD: "${EKT_API_PASSWORD:-}"
+      CATALOG_SYNC_ENABLED: "${CATALOG_SYNC_ENABLED:-0}"
+      CMS_ADMIN_TOKEN: "${CMS_ADMIN_TOKEN:-}"
+      PUBLIC_BASE_URL: "${PUBLIC_BASE_URL:-}"
+    volumes:
+      - data:/app/data
+    restart: unless-stopped
+
+volumes:
+  data:

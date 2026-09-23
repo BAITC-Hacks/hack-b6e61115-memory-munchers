@@ -1,0 +1,65 @@
+{
+  "method": "Direct HTTP requests before bot implementation; no LLM key configured",
+  "ekt": [
+    {
+      "attempt": 1,
+      "product_id": 45357,
+      "http": 200,
+      "seconds": 0.207,
+      "bytes": 3065,
+      "fields": [
+        "id",
+        "name",
+        "article",
+        "description",
+        "price",
+        "quantity",
+        "stores",
+        "image",
+        "url",
+        "offers",
+        "properties"
+      ]
+    },
+    {
+      "attempt": 2,
+      "product_id": 45357,
+      "http": 200,
+      "seconds": 0.192,
+      "bytes": 3065,
+      "fields": [
+        "id",
+        "name",
+        "article",
+        "description",
+        "price",
+        "quantity",
+        "stores",
+        "image",
+        "url",
+        "offers",
+        "properties"
+      ]
+    },
+    {
+      "attempt": 3,
+      "product_id": 45357,
+      "http": 200,
+      "seconds": 0.175,
+      "bytes": 3065,
+      "fields": [
+        "id",
+        "name",
+        "article",
+        "description",
+        "price",
+        "quantity",
+        "stores",
+        "image",
+        "url",
+        "offers",
+        "properties"
+      ]
+    }
+  ]
+}

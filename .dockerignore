@@ -1,0 +1,22 @@
+# Send only application sources, static assets and the reproducible catalogue seed.
+**
+!Dockerfile
+!.dockerignore
+!requirements.txt
+!app/
+!app/**
+!scripts/
+!scripts/run_site.py
+!data/
+!data/raw_details.jsonl
+!дизайн/
+!дизайн/assets/
+!дизайн/assets/**
+**/__pycache__
+**/*.pyc
+**/.env
+**/.env.*
+**/*.sqlite*
+**/*.db
+**/*.log
+**/*.pid

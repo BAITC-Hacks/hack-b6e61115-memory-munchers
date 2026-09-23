@@ -1,0 +1,1019 @@
+{
+  "created_at": "2026-09-23T12:32:47.891198+00:00",
+  "mode": "live_end_to_end_assistant_reply",
+  "model": "gpt-5.4-mini",
+  "research_model": "gpt-5.4-mini",
+  "model_timeout_seconds": 5.2,
+  "response_timeout_seconds": 7.2,
+  "catalog_products": 15035,
+  "scope": "Assistant.reply plus attachment parsing; excludes Telegram delivery and user upload transfer.",
+  "store": "Temporary SQLite only; deleted after verification.",
+  "external_writes": false,
+  "telegram_messages": false,
+  "runs": [
+    {
+      "scenario": "exact_sku_details",
+      "prompt": "Есть ли 010500006_? Нужны наличие, характеристики и сертификат.",
+      "wall_seconds": 0.0059,
+      "reported_seconds": 0.003,
+      "status": "completed",
+      "product_ids": [
+        21449
+      ],
+      "product_count": 1,
+      "trace": [
+        "product_details"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "llm_used": false,
+      "manager": false,
+      "criteria": {
+        "exact_product_returned": true,
+        "specifications_present": true,
+        "certificate_status_present": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Нашёл товар. Ниже данные каталога.\n\nВА47-29 (1ф) 16А IEK (12/144)\nАртикул: 010500006_ · ID 21449\nЦена: 768 ₸ · Остаток: 110048 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; KOLICHESTVOVREZERVE: 390; insta: Y; SLIDER_PHOTOS: ['103476', '103477']; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами\nСертификаты: https://ekt.kz/upload/iblock/d73/cg4iz2mfi5d8v86yygje3moxllyoq0w2/Sertifikat-004-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/6c6/olvnj39a03ztrg0jmvmto1gpd6po3r9h/Deklaratsiya-037-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/d16/mfgpxsn36rskuho1o23tolrgvu0852ew/Otkaznoe-pismo-043-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/d6c/nyypp4htt4yz5dk7y6vfsjo30whxvmjj/Otkaznoe-pismo-123_FZ-MVA20_1_016_C.pdf\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/va_47_29_3_63_a_iek/va47_29_1f_16a_iek_12_144_/\nПо складам: Шымкент (ул.Байдукова): 13937; Алматы: 43280; Усть-Каменогорск: 5376; Тараз: 11795; Атырау: 5810",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "zero_stock_alternative",
+      "prompt": "310100024_ нет в наличии? Предложи подходящий аналог и объясни различия.",
+      "wall_seconds": 0.0088,
+      "reported_seconds": 0.007,
+      "status": "completed",
+      "product_ids": [
+        21182,
+        18427
+      ],
+      "product_count": 2,
+      "trace": [
+        "product_details",
+        "find_alternatives"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "llm_used": false,
+      "manager": false,
+      "criteria": {
+        "source_is_zero_stock": true,
+        "in_stock_alternative_with_reason": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Ниже исходный товар и кандидаты на замену. Совместимость нужно подтвердить по параметрам.\n\n11204 ВА 63 (1ф) 20А 404029 Legrand (10) !!!\nАртикул: 310100024_ · ID 21182\nЦена: 941 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 20А; Характеристика срабатывания: C; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/11204_va_63_1f_20a_404029_legrand_10_/\n\nВА47-29 (1ф) 20А IEK (12/144)\nАртикул: 010500007_ · ID 18427\nЦена: 808 ₸ · Остаток: 8013 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 20А; Характеристика срабатывания: C; KOLICHESTVOVREZERVE: 23; insta: Y; SLIDER_PHOTOS: ['101703', '101704']; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами\nПрямой ссылки на сертификат в доступной карточке нет.\nКандидат той же категории. Совпадают данные каталога: полюса: 1; номинальный ток: 20А; характеристика срабатывания: C; напряжение: 230В; отключающая способность: 4,5кА. Монтажные размеры и пригодность для конкретной задачи нужно проверить.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/va_47_29_3_63_a_iek/va47_29_1f_20a_iek_12_144_/\nПо складам: Шымкент (ул.Байдукова): 1680; Алматы: 1147; Усть-Каменогорск: 535; Тараз: 1069; Атырау: 410",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "purchase_terms",
+      "prompt": "Какие условия оплаты, доставки и минимальной партии?",
+      "wall_seconds": 0.005,
+      "reported_seconds": 0.003,
+      "status": "completed",
+      "product_ids": [],
+      "product_count": 0,
+      "trace": [
+        "purchase_terms"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "llm_used": false,
+      "manager": false,
+      "criteria": {
+        "terms_tool": true,
+        "source_link": true,
+        "substantive_answer": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Физлица: карта онлайн, наличные при получении, наличные/POS при самовывозе. Юрлица: перечисление по счёту; наличные при самовывозе.\n\nАлматы: после согласования до 48 часов, 09:00–17:00. В профильном разделе указана бесплатная доставка свыше 30 000 ₸; ниже — 1 000 или 2 000 ₸ по зоне. Межгород зависит от адреса, веса и объёма; свыше 400 000 ₸ указана бесплатная доставка. Итоговую стоимость подтверждает менеджер.\n\nРозничная покупка доступна. Общий минимальный заказ не опубликован. Количество отдельного товара зависит от упаковки и формы поставки; кратность нужно проверить для выбранной позиции.\n\nИсточник: https://ekt.kz/checkout-delivery/",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "prepare_cart",
+      "prompt": "Подготовь 2 штуки 010500006_ в корзину. Пока не добавляй.",
+      "wall_seconds": 0.0081,
+      "reported_seconds": 0.007,
+      "status": "completed",
+      "product_ids": [
+        21449
+      ],
+      "product_count": 1,
+      "trace": [
+        "product_details",
+        "propose_cart"
+      ],
+      "proposal": true,
+      "proposal_items": [
+        {
+          "id": 21449,
+          "article": "010500006_",
+          "name": "ВА47-29 (1ф) 16А IEK (12/144)",
+          "price": 768,
+          "quantity": 2
+        }
+      ],
+      "tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "llm_used": false,
+      "manager": false,
+      "criteria": {
+        "proposal_prepared": true,
+        "cart_stays_empty": true,
+        "quantity_two": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Нашёл товар. Ниже данные каталога.\n\nВА47-29 (1ф) 16А IEK (12/144)\nАртикул: 010500006_ · ID 21449\nЦена: 768 ₸ · Остаток: 110048 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; KOLICHESTVOVREZERVE: 390; insta: Y; SLIDER_PHOTOS: ['103476', '103477']; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами\nСертификаты: https://ekt.kz/upload/iblock/d73/cg4iz2mfi5d8v86yygje3moxllyoq0w2/Sertifikat-004-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/6c6/olvnj39a03ztrg0jmvmto1gpd6po3r9h/Deklaratsiya-037-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/d16/mfgpxsn36rskuho1o23tolrgvu0852ew/Otkaznoe-pismo-043-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/d6c/nyypp4htt4yz5dk7y6vfsjo30whxvmjj/Otkaznoe-pismo-123_FZ-MVA20_1_016_C.pdf\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/va_47_29_3_63_a_iek/va47_29_1f_16a_iek_12_144_/\nПо складам: Шымкент (ул.Байдукова): 13937; Алматы: 43280; Усть-Каменогорск: 5376; Тараз: 11795; Атырау: 5810\n\nСостав на подтверждение:\n010500006_ — ВА47-29 (1ф) 16А IEK (12/144): 2 × 768 ₸\n\nДля добавления нажми «Да, добавь» или напиши точно: да, добавь. До этого корзина не меняется.",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "explicit_confirm_live_stock",
+      "prompt": "да, добавь",
+      "wall_seconds": 0.529,
+      "reported_seconds": 0.529,
+      "status": "confirmed",
+      "product_ids": [],
+      "product_count": 0,
+      "trace": [],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "llm_used": false,
+      "manager": false,
+      "criteria": {
+        "confirmed": true,
+        "quantity_two": true,
+        "cart_link_present": true,
+        "token_matches_cart": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Добавлено в корзину. http://127.0.0.1:8000/cart/mWIBP5mK5TkTxcZlqLI13K3sBTPIlsTu",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "save_local_request",
+      "wall_seconds": 0.0021,
+      "status": "request",
+      "product_ids": [
+        21449
+      ],
+      "product_count": 1,
+      "trace": [
+        "store.save_request"
+      ],
+      "proposal": false,
+      "tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "scope": "Local request persistence; not an EKT purchase.",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "repeat_saved_request",
+      "prompt": "Повтори мой прошлый заказ: подготовь ту же корзину с тем же количеством, без добавления до подтверждения.",
+      "wall_seconds": 1.32,
+      "reported_seconds": 1.319,
+      "status": "completed",
+      "product_ids": [],
+      "product_count": 0,
+      "trace": [
+        "previous_requests"
+      ],
+      "proposal": true,
+      "proposal_items": [
+        {
+          "id": 21449,
+          "article": "010500006_",
+          "name": "ВА47-29 (1ф) 16А IEK (12/144)",
+          "price": 768,
+          "quantity": 2
+        }
+      ],
+      "tokens": {
+        "input_tokens": 1440,
+        "output_tokens": 14,
+        "total_tokens": 1454
+      },
+      "llm_used": true,
+      "manager": false,
+      "criteria": {
+        "previous_request_exists": true,
+        "new_proposal": true,
+        "cart_stays_empty": true,
+        "same_items": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Для какой задачи подбираешь товар и какие параметры уже известны?\n\nСохранённые подборы:\n010500006_ — ВА47-29 (1ф) 16А IEK (12/144) × 2\n\nСостав на подтверждение:\n010500006_ — ВА47-29 (1ф) 16А IEK (12/144): 2 × 768 ₸\n\nДля добавления нажми «Да, добавь» или напиши точно: да, добавь. До этого корзина не меняется.",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "indecision_first_turn",
+      "prompt": "Не знаю, что выбрать для домашней мастерской.",
+      "wall_seconds": 1.0167,
+      "reported_seconds": 1.015,
+      "status": "completed",
+      "product_ids": [],
+      "product_count": 0,
+      "trace": [
+        "previous_requests"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 828,
+        "output_tokens": 14,
+        "total_tokens": 842
+      },
+      "llm_used": true,
+      "manager": false,
+      "criteria": {
+        "clarifying_question": true,
+        "not_yet_manager": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Для какой задачи подбираешь товар и какие параметры уже известны?\n\nСохранённых подборов пока нет.",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "indecision_manager_turn",
+      "prompt": "Всё ещё сомневаюсь и не могу выбрать.",
+      "wall_seconds": 1.4925,
+      "reported_seconds": 1.491,
+      "status": "completed",
+      "product_ids": [],
+      "product_count": 0,
+      "trace": [
+        "previous_requests"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 872,
+        "output_tokens": 20,
+        "total_tokens": 892
+      },
+      "llm_used": true,
+      "manager": true,
+      "criteria": {
+        "manager_protocol_active": true,
+        "clarifying_question": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Для какой задачи подбираешь товар и какие параметры уже известны?\n\nСохранённых подборов пока нет.",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "excel_attachment",
+      "prompt": "Найди в ограниченном каталоге первую товарную строку приложенного Excel и покажи её карточку. Не добавляй в корзину.",
+      "input": "Two-row XLSX parser fixture made from actual catalogue products.",
+      "attachment": {
+        "text_characters": 172,
+        "has_image": false,
+        "warning": null
+      },
+      "wall_seconds": 1.3233,
+      "reported_seconds": 1.312,
+      "status": "completed",
+      "product_ids": [
+        21449
+      ],
+      "product_count": 1,
+      "trace": [
+        "search_catalog",
+        "search_catalog"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 940,
+        "output_tokens": 86,
+        "total_tokens": 1026
+      },
+      "llm_used": true,
+      "manager": false,
+      "criteria": {
+        "first_product_found": true,
+        "cart_stays_empty": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Нашёл варианты в каталоге. Уточни нужное количество или главный параметр.\n\nВА47-29 (1ф) 16А IEK (12/144)\nАртикул: 010500006_ · ID 21449\nЦена: 768 ₸ · Остаток: 109013 (проверено в API)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; KOLICHESTVOVREZERVE: 136; insta: Y; SLIDER_PHOTOS: ['103476', '103477']; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами\nСертификаты: https://ekt.kz/upload/iblock/d73/cg4iz2mfi5d8v86yygje3moxllyoq0w2/Sertifikat-004-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/6c6/olvnj39a03ztrg0jmvmto1gpd6po3r9h/Deklaratsiya-037-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/d16/mfgpxsn36rskuho1o23tolrgvu0852ew/Otkaznoe-pismo-043-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/d6c/nyypp4htt4yz5dk7y6vfsjo30whxvmjj/Otkaznoe-pismo-123_FZ-MVA20_1_016_C.pdf\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/va_47_29_3_63_a_iek/va47_29_1f_16a_iek_12_144_/\nПо складам: Шымкент (ул.Байдукова): 13665; Алматы: 42675; Усть-Каменогорск: 5370; Тараз: 11784; Атырау: 5813",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "unknown_sku_catalog_boundary",
+      "prompt": "Есть ли товар с точным артикулом ZZZ-NONEXISTENT-999999999999? Покажи только точное совпадение, без аналогов.",
+      "wall_seconds": 1.6156,
+      "reported_seconds": 1.613,
+      "status": "completed",
+      "product_ids": [],
+      "product_count": 0,
+      "trace": [
+        "search_catalog"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 853,
+        "output_tokens": 29,
+        "total_tokens": 882
+      },
+      "llm_used": true,
+      "manager": false,
+      "criteria": {
+        "no_invented_products": true,
+        "explicit_no_match": true,
+        "cart_stays_empty": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Точного совпадения в каталоге не нашёл. Уточни артикул или ключевые параметры.",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "manager_real_web_research",
+      "prompt": "Поищи в интернете: чем отличается дифференциальный автомат от УЗО? Нужен общий принцип, без подбора номиналов и цен.",
+      "wall_seconds": 6.6045,
+      "reported_seconds": 6.602,
+      "status": "completed",
+      "product_ids": [],
+      "product_count": 0,
+      "trace": [
+        "research_task"
+      ],
+      "proposal": false,
+      "tool_calls": [],
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 8686,
+        "output_tokens": 649,
+        "total_tokens": 9335
+      },
+      "llm_used": true,
+      "token_usage_available": true,
+      "manager": true,
+      "criteria": {
+        "manager_protocol_active": true,
+        "research_tool_ran": true,
+        "web_context_rendered": true,
+        "external_source_link": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Вот технические сведения из найденных источников. Ассортимент и остатки проверяются отдельно по каталогу EKT.\n\nТехнический контекст из интернета (не сведения о наличии):\nЕсли кратко: **УЗО** защищает в первую очередь от **утечки тока на землю** и поражения электрическим током, а **дифференциальный автомат** — это **УЗО + автоматический выключатель** в одном корпусе, то есть он дополнительно защищает от **перегрузки и короткого замыкания**. ABB прямо описывает RCCB/УЗО как устройство только для утечки, а RCBO/дифавтомат — как комбинацию защиты от утечки и от сверхтоков. ([new.abb.com](https://new.abb.com/low-voltage/products/system-pro-m/residual-current-devices?utm_source=openai))\n\n### Общий принцип различия\n- **УЗО (RCCB)** реагирует на разницу токов между фазой и нулём: если часть тока “уходит” не по рабочей цепи, а, например, через корпус прибора или человека, устройство отключает цепь. При этом само УЗО **не предназначено** защищать от перегрузки и короткого замыкания, поэтому обычно ставится вместе с автоматом. ([new.abb.com](https://new.abb.com/low-voltage/products/system-pro-m/residual-current-devices?utm_source=openai))\n- **Дифференциальный автомат (RCBO)** совмещает два вида защиты:  \n  1) дифференциальную — от утечки тока;  \n  2) токовую — от перегрузки и короткого замыкания. ([new.abb.com](https://new.abb.com/low-voltage/products/system-pro-m/residual-current-devices?utm_source=openai))\n\n### Практический смысл\n- Если стоит **УЗО**, то рядом обычно нужен **отдельный автомат**.  \n- Если стоит **дифавтомат**, отдельный автомат на эту линию уже не нужен, потому что защита объединена в одном устройстве. ([new.abb.com](https://new.abb.com/low-voltage/products/system-pro-m/residual-current-devices?utm_source=openai))\n\n### Как выбирать на уровне принципа\nБез подбора номиналов:\n- если нужна **только защита от утечки**, смотрят в сторону **УЗО**;\n- если нужна **защита от утечки + перегрузки + короткого замыкания в одном устройстве**, смотрят в сторону **дифавтомата**. ([new.abb.com](https://new.abb.com/low-voltage/products/system-pro-m/residual-current-devices?utm_source=openai))\n\nЕсли хочешь, я могу следующим сообщением сделать **сравнительную таблицу “УЗО vs дифавтомат” в 5 строк** — тоже без номиналов и без подбора.\nhttps://new.abb.com/low-voltage/products/system-pro-m/residual-current-devices?utm_source=openai\nhttps://new.abb.com/low-voltage/products/system-pro-m/residual-current-devices?utm_source=openai\nhttps://new.abb.com/low-voltage/products/system-pro-m/residual-current-devices?utm_source=openai\nhttps://new.abb.com/low-voltage/products/system-pro-m/residual-current-devices?utm_source=openai\nhttps://new.abb.com/low-voltage/products/system-pro-m/residual-current-devices?utm_source=openai"
+    },
+    {
+      "scenario": "natural_selection",
+      "prompt": "Нужен однополюсный автомат C16 на 230 В, 4.5 кА с сертификатом. Подбери из каталога.",
+      "observed_at": "2026-09-23T12:29:08.698547+00:00",
+      "runtime": {
+        "started_at": "2026-09-23T12:29:08.350152+00:00",
+        "model": "gpt-5.4-mini",
+        "research_model": "gpt-5.4-mini",
+        "model_timeout_seconds": 5.2,
+        "response_timeout_seconds": 7.2,
+        "code_sha256": {
+          "app/agent.py": "4b10d54e639e9e5c9c8929d57d907f1d2b25850114011068f9c52e00f5a4cae8",
+          "app/catalog.py": "5e4605158cc7b7578c2836141a26222ba7ded85eec33a75b01107a5be840afe8",
+          "app/attachments.py": "afbd3f591aa7109414479eae5a06e28bbafcc7b3187b672e27342398d0589d9c",
+          "app/config.py": "db736211caea745c9b18e11ff8b518412821e2208dc0c487d1e2ca755ae0e77a"
+        },
+        "catalog_source": {
+          "file": "C:\\Users\\PC\\Desktop\\Хакатон\\data\\raw_details.jsonl",
+          "size_bytes": 48671603,
+          "products": 15035
+        }
+      },
+      "wall_seconds": 3.9218,
+      "reported_seconds": 3.916,
+      "status": "completed",
+      "product_ids": [
+        19281,
+        18412,
+        20404,
+        21449
+      ],
+      "product_count": 4,
+      "trace": [
+        "search_catalog"
+      ],
+      "proposal": false,
+      "tool_calls": [
+        {
+          "name": "search_catalog",
+          "arguments": {
+            "query": "однополюсный автомат C16 230 В 4.5 кА сертификат"
+          },
+          "user_id": "flow:natural",
+          "result_count": 5
+        }
+      ],
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 899,
+        "output_tokens": 36,
+        "total_tokens": 935
+      },
+      "llm_used": true,
+      "token_usage_available": true,
+      "manager": false,
+      "criteria": {
+        "catalog_products_returned": true,
+        "at_least_one_matches_requested_specs": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Нашёл варианты в каталоге. Уточни нужное количество или главный параметр.\n\nF34116 EZ9 ВА 1ф 16А 4,5кА SchnEl (12)\nАртикул: 010400239_ · ID 19281\nЦена: 1420 ₸ · Остаток: 7441 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; KOLICHESTVOVREZERVE: 495; insta: Y; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/easy9_avtomaticheskie_vyklyuchateli_i_uzo/f34116_ez9_va_1f_16a_4_5ka_schnel_12_/\nПо складам: Шымкент (ул.Байдукова): 165; Алматы: 4650; Усть-Каменогорск: 331; Тараз: 107; Атырау: 429\n\nВА 101 1P 16А 4,5кА С (12) DEKraft\nАртикул: 11054DEK · ID 18412\nЦена: 384 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; VES: Германия; OBYEM: уличное освещение; GLUBINA: WI-FI; insta: Y\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/va_101_1_63_a_dekraft/va_101_1p_16a_4_5ka_s_12_dekraft/\n\nВА47-29 (1ф) 16А TDM (120) !!!\nАртикул: 011100119_ · ID 20404\nЦена: 180 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/va47_29_1f_16a_tdm_120_/\n\nВА47-29 (1ф) 16А IEK (12/144)\nАртикул: 010500006_ · ID 21449\nЦена: 768 ₸ · Остаток: 110048 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; KOLICHESTVOVREZERVE: 390; insta: Y; SLIDER_PHOTOS: ['103476', '103477']; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами\nСертификаты: https://ekt.kz/upload/iblock/d73/cg4iz2mfi5d8v86yygje3moxllyoq0w2/Sertifikat-004-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/6c6/olvnj39a03ztrg0jmvmto1gpd6po3r9h/Deklaratsiya-037-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/d16/mfgpxsn36rskuho1o23tolrgvu0852ew/Otkaznoe-pismo-043-MVA20_1_016_C.pdf, https://ekt.kz/upload/iblock/d6c/nyypp4htt4yz5dk7y6vfsjo30whxvmjj/Otkaznoe-pismo-123_FZ-MVA20_1_016_C.pdf\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/va_47_29_3_63_a_iek/va47_29_1f_16a_iek_12_144_/\nПо складам: Шымкент (ул.Байдукова): 13937; Алматы: 43280; Усть-Каменогорск: 5376; Тараз: 11795; Атырау: 5810"
+    },
+    {
+      "scenario": "jpeg_vision",
+      "prompt": "Определи тип товара по фотографии и найди подходящие позиции в каталоге. Не угадывай нечитаемые параметры.",
+      "observed_at": "2026-09-23T12:29:15.141815+00:00",
+      "runtime": {
+        "started_at": "2026-09-23T12:29:08.350152+00:00",
+        "model": "gpt-5.4-mini",
+        "research_model": "gpt-5.4-mini",
+        "model_timeout_seconds": 5.2,
+        "response_timeout_seconds": 7.2,
+        "code_sha256": {
+          "app/agent.py": "4b10d54e639e9e5c9c8929d57d907f1d2b25850114011068f9c52e00f5a4cae8",
+          "app/catalog.py": "5e4605158cc7b7578c2836141a26222ba7ded85eec33a75b01107a5be840afe8",
+          "app/attachments.py": "afbd3f591aa7109414479eae5a06e28bbafcc7b3187b672e27342398d0589d9c",
+          "app/config.py": "db736211caea745c9b18e11ff8b518412821e2208dc0c487d1e2ca755ae0e77a"
+        },
+        "catalog_source": {
+          "file": "C:\\Users\\PC\\Desktop\\Хакатон\\data\\raw_details.jsonl",
+          "size_bytes": 48671603,
+          "products": 15035
+        }
+      },
+      "fixture_note": "Generic C63 image hosted on a C16 SKU page. Verify candidates against visible specifications, not the hosting SKU.",
+      "attachment_processing_seconds": 0.0004,
+      "attachment": {
+        "text_characters": 0,
+        "has_image": true,
+        "warning": null
+      },
+      "wall_seconds": 2.9395,
+      "reported_seconds": 2.937,
+      "status": "completed",
+      "product_ids": [
+        18189,
+        21280,
+        33708,
+        20055
+      ],
+      "product_count": 4,
+      "trace": [
+        "search_catalog"
+      ],
+      "proposal": false,
+      "tool_calls": [
+        {
+          "name": "search_catalog",
+          "arguments": {
+            "query": "автоматический выключатель EKF KARAT C63 230/400V 4500 1P по фото"
+          },
+          "user_id": "flow:vision",
+          "result_count": 5
+        }
+      ],
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 1660,
+        "output_tokens": 41,
+        "total_tokens": 1701
+      },
+      "llm_used": true,
+      "token_usage_available": true,
+      "manager": false,
+      "criteria": {
+        "catalog_product_found": true,
+        "model_was_used": true,
+        "cart_stays_empty": true,
+        "all_candidates_respect_current_and_curve": true,
+        "all_candidates_respect_single_pole": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "По фото нашёл кандидатов. Проверь маркировку: изображение серии не гарантирует точного совпадения артикула.\n\nНашёл варианты в каталоге. Уточни нужное количество или главный параметр.\n\nBM63-1XС 63A КЭАЗ (12) !!!\nАртикул: 010800078_ · ID 18189\nЦена: 757 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 6кА; Напряжение: 230В; Номинальный ток: 63А; Характеристика срабатывания: C; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/avtomaticheskie_vyklyuchateli/bm63_1xs_63a_keaz_12_/\n\nF34163 EZ9 ВА 1ф 63А 4,5кА SchnEl (12)\nАртикул: 010400250_ · ID 21280\nЦена: 2460 ₸ · Остаток: 1217 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 63А; Характеристика срабатывания: C; insta: Y; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/easy9_avtomaticheskie_vyklyuchateli_i_uzo/f34163_ez9_va_1f_63a_4_5ka_schnel_12_/\nПо складам: Шымкент (ул.Байдукова): 1; Алматы: 1117; Усть-Каменогорск: 25; Тараз: 8; Атырау: 18\n\n12163 АВ (1ф) 63А Schneider Electric (12)\nАртикул: 010400574_ · ID 33708\nЦена: 4890 ₸ · Остаток: 79 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 63кА; Напряжение: 230В; Номинальный ток: 63 А; Характеристика срабатывания: C; insta: Y; SLIDER_PHOTOS: ['101477', '101478']; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTANOVKI: На Din-рейку ( Модульный )\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/novinki/shchitovoe_oborudovanie_aktsiya_10/12163_av_1f_63a_schneider_electric_12/\nПо складам: Шымкент (ул.Байдукова): 5; Алматы: 50; Усть-Каменогорск: 12; Нур-Султан: 9; Шымкент (Тассай): 3\n\nВА 101 1P 63А 4,5кА С (12) DEKraft\nАртикул: 11060DEK · ID 20055\nЦена: 491 ₸ · Остаток: 8 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 63А; Характеристика срабатывания: C; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/va_101_1_63_a_dekraft/va_101_1p_63a_4_5ka_s_12_dekraft/\nПо складам: Алматы: 8",
+      "verification_corrections": [
+        {
+          "corrected_at": "2026-09-23T12:31:24.814023+00:00",
+          "reason": "Verifier word-boundary regex rejected adjacent Cyrillic ampere unit in 63A text. Rechecked numeric property against original catalogue data without another API call.",
+          "previous_criteria": {
+            "catalog_product_found": true,
+            "model_was_used": true,
+            "cart_stays_empty": true,
+            "all_candidates_respect_current_and_curve": false,
+            "all_candidates_respect_single_pole": true
+          },
+          "previous_completed_bool": false,
+          "source": "data/raw_details.jsonl"
+        }
+      ]
+    },
+    {
+      "scenario": "large_excel_bounded_partial",
+      "prompt": "Проверь приложенный каталог Excel и найди первую товарную строку. Если файл прочитан не весь, не утверждай обратное.",
+      "observed_at": "2026-09-23T12:32:48.675259+00:00",
+      "runtime": {
+        "started_at": "2026-09-23T12:32:47.891198+00:00",
+        "model": "gpt-5.4-mini",
+        "research_model": "gpt-5.4-mini",
+        "model_timeout_seconds": 5.2,
+        "response_timeout_seconds": 7.2,
+        "code_sha256": {
+          "app/agent.py": "0c3327c344e4987864af2dd4cf943e07ce0c84ade8c24fa74806ed29af2c60f7",
+          "app/catalog.py": "8d124ae388214c3c951ca910b8014b75097c22783ec6ce7c77aef2dff9afdb74",
+          "app/attachments.py": "afbd3f591aa7109414479eae5a06e28bbafcc7b3187b672e27342398d0589d9c",
+          "app/config.py": "db736211caea745c9b18e11ff8b518412821e2208dc0c487d1e2ca755ae0e77a"
+        },
+        "catalog_source": {
+          "file": "C:\\Users\\PC\\Desktop\\Хакатон\\data\\raw_details.jsonl",
+          "size_bytes": 48671603,
+          "products": 15035
+        }
+      },
+      "source_file": "C:\\Users\\PC\\Desktop\\Хакатон\\data\\catalog.xlsx",
+      "timing_scope": "File read, parse, first-row verification and Assistant.reply.",
+      "expected_limitation": "A parser rejection or bounded partial read is not counted as full task completion.",
+      "attachment_processing_seconds": 0.0245,
+      "attachment": {
+        "text_characters": 20000,
+        "has_image": false,
+        "warning": "Прочитаны только первые 100 строк Excel суммарно по листам; остальная часть файла не прочитана. Текст сокращён до 20 000 символов. Отправьте оставшуюся часть отдельным файлом."
+      },
+      "wall_seconds": 0.032,
+      "reported_seconds": 0.004,
+      "status": "completed",
+      "product_ids": [
+        45357
+      ],
+      "product_count": 1,
+      "trace": [
+        "product_details",
+        "find_alternatives"
+      ],
+      "proposal": false,
+      "tool_calls": [],
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "llm_used": false,
+      "token_usage_available": true,
+      "manager": false,
+      "criteria": {
+        "bounded_parser_output": true,
+        "parser_warning_present": true,
+        "first_product_found": true,
+        "full_input_processed": false
+      },
+      "completed_bool": false,
+      "under_8_seconds": true,
+      "text": "Подходящего аналога по известным параметрам не нашёл. Уточни допустимые отличия.\n\n***LED STARK 30W 2400Lm d98x180 4000K IP20 MEGALIGHT (20)\nАртикул: ярп4520 · ID 45357\nЦена: 1810 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nСветодиодный светильник направленного освещения. Применяется для освещения выставочных залов, в магазинах, в музее, для освещения витрин и т.п. Адаптер крепления к шинопроводу идёт в комплекте. Способ установки: Крепится на 2-линейный алюминиевый шинопровод. Технические характеристики: Материал светильника: алюминий. Корпус адаптера: ABS пластик (черного цвета). Шинопровод: листовая сталь. Мощность: 30 Вт. Цветность: 4000 К. Световой поток: 2400 Лм. Размеры: d-98x180. IP20\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/aktsiya_megalight_polnyy_sklad_polnyy_bak/_led_stark_30w_2400lm_d98x180_4000k_ip20_megalight_20/",
+      "partial_processing_succeeded": true,
+      "parser_handling": "partial",
+      "expected_first_article": "ярп4520",
+      "expected_first_product_id": 45357
+    }
+  ],
+  "setup": {
+    "vision_image": {
+      "source_product_id": 21449,
+      "source_article": "010500006_",
+      "url": "https://ekt.kz/upload/iblock/407/0531p7w0ivbd6celf8sl11jfqu43zymt/va47_29_1f_16a_iek_12_144_.jpg",
+      "http_status": 200,
+      "bytes": 70449,
+      "jpeg": true,
+      "download_seconds": 0.5365
+    }
+  },
+  "limitations": "One pass per different scenario is not a p95 estimate or a latency SLA.",
+  "current_invocation": {
+    "started_at": "2026-09-23T12:32:47.891198+00:00",
+    "model": "gpt-5.4-mini",
+    "research_model": "gpt-5.4-mini",
+    "model_timeout_seconds": 5.2,
+    "response_timeout_seconds": 7.2,
+    "code_sha256": {
+      "app/agent.py": "0c3327c344e4987864af2dd4cf943e07ce0c84ade8c24fa74806ed29af2c60f7",
+      "app/catalog.py": "8d124ae388214c3c951ca910b8014b75097c22783ec6ce7c77aef2dff9afdb74",
+      "app/attachments.py": "afbd3f591aa7109414479eae5a06e28bbafcc7b3187b672e27342398d0589d9c",
+      "app/config.py": "db736211caea745c9b18e11ff8b518412821e2208dc0c487d1e2ca755ae0e77a"
+    },
+    "catalog_source": {
+      "file": "C:\\Users\\PC\\Desktop\\Хакатон\\data\\raw_details.jsonl",
+      "size_bytes": 48671603,
+      "products": 15035
+    }
+  },
+  "previous_attempts": [
+    {
+      "scenario": "manager_real_web_research",
+      "prompt": "Поищи в интернете: чем отличается дифференциальный автомат от УЗО? Нужен общий принцип, без подбора номиналов и цен.",
+      "wall_seconds": 2.9513,
+      "reported_seconds": 2.949,
+      "status": "completed",
+      "product_ids": [
+        21159,
+        22163,
+        44389,
+        33315
+      ],
+      "product_count": 4,
+      "trace": [
+        "search_catalog"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 852,
+        "output_tokens": 27,
+        "total_tokens": 879
+      },
+      "llm_used": true,
+      "manager": true,
+      "criteria": {
+        "manager_protocol_active": true,
+        "research_tool_ran": false,
+        "web_context_rendered": false,
+        "external_source_link": false
+      },
+      "completed_bool": false,
+      "under_8_seconds": true,
+      "text": "Нашёл варианты в каталоге. Уточни нужное количество или главный параметр.\n\nУЗО АВДТ 32 25А GENERICA (6/60) !!!\nАртикул: 010300169_ · ID 21159\nЦена: 2440 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 2; Напряжение: 230В; Номинальный ток: 25А; Характеристика срабатывания: C; NAZNACHENIE: Для poзeтoк и пpибopoв в cуxиx пoмeщeнияx (30мА); NOMINALNYY_OTKLYUCHAYUSHCHIY_DIFFERENTSIALNYY_TOK: 30мА; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/ustroystvo_differentsialnoy_zashchity/avdt_generica/uzo_avdt_32_25a_generica_6_60_/\n\nУЗО АД 12 (2ф) 16А GENERICA (5/40) !!!\nАртикул: 010300156_ · ID 22163\nЦена: 2205 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 2; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; NAZNACHENIE: Для poзeтoк и пpибopoв в cуxиx пoмeщeнияx (30мА); NOMINALNYY_OTKLYUCHAYUSHCHIY_DIFFERENTSIALNYY_TOK: 30мА; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/ustroystvo_differentsialnoy_zashchity/ad_12_generica/uzo_ad_12_2f_16a_generica_5_40_/\n\nУЗО АВДТ 1P+NP 16 А 30мА ARMAT IEK (12)\nАртикул: 010700169_ · ID 44389\nЦена: 21851 ₸ · Остаток: 32 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Напряжение: 230-380 AC/DC; Номинальный ток: 16 А; Характеристика срабатывания: C; OBYEM: Автоматический выключатель; SLIDER_PHOTOS: ['105657', '105658']; TIP_USTROYSTVA: Автоматические выключатели дифференциального тока\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/ustroystvo_differentsialnoy_zashchity/uzo_avdt_1p_np_16_a_30ma_armat_iek_12/\nПо складам: Алматы: 27; Караганда: 2; Актау: 2; Нур-Султан: 1\n\nУЗО EASY 9 1П+Н 40А (30мА) Schneider Electric\nАртикул: EZ9D34640 · ID 33315\nЦена: 20710 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; OBYEM: Автоматический выключатель; SLIDER_PHOTOS: 100738; VYKHODNOE_NAPRYAZHENIE_: 20\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/ustroystvo_differentsialnoy_zashchity/avdt_ez9_schneider_electric/uzo_easy_9_1p_n_40a_30ma_schneider_electric/"
+    },
+    {
+      "scenario": "jpeg_vision",
+      "prompt": "Определи тип товара по фотографии и найди подходящие позиции в каталоге. Не угадывай нечитаемые параметры.",
+      "attachment": {
+        "text_characters": 0,
+        "has_image": true,
+        "warning": null
+      },
+      "wall_seconds": 1.4962,
+      "reported_seconds": 1.494,
+      "status": "completed",
+      "product_ids": [],
+      "product_count": 0,
+      "trace": [
+        "search_catalog"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 1611,
+        "output_tokens": 42,
+        "total_tokens": 1653
+      },
+      "llm_used": true,
+      "manager": false,
+      "criteria": {
+        "catalog_product_found": false,
+        "model_was_used": true,
+        "cart_stays_empty": true
+      },
+      "completed_bool": false,
+      "under_8_seconds": true,
+      "text": "Точного совпадения в каталоге не нашёл. Уточни артикул или ключевые параметры."
+    },
+    {
+      "scenario": "manager_real_web_research",
+      "prompt": "Поищи в интернете: чем отличается дифференциальный автомат от УЗО? Нужен общий принцип, без подбора номиналов и цен.",
+      "wall_seconds": 5.2123,
+      "reported_seconds": 5.21,
+      "status": "error",
+      "product_ids": [],
+      "product_count": 0,
+      "trace": [
+        "research_task"
+      ],
+      "proposal": false,
+      "tool_calls": [],
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "llm_used": true,
+      "manager": true,
+      "criteria": {
+        "manager_protocol_active": true,
+        "research_tool_ran": true,
+        "web_context_rendered": false,
+        "external_source_link": false
+      },
+      "completed_bool": false,
+      "under_8_seconds": true,
+      "text": "Веб-поиск не успел завершиться. Корзина не менялась. Могу проверить точный артикул и характеристики в локальной базе.",
+      "error": "TimeoutError",
+      "token_usage_available": false
+    },
+    {
+      "scenario": "jpeg_vision",
+      "prompt": "Определи тип товара по фотографии и найди подходящие позиции в каталоге. Не угадывай нечитаемые параметры.",
+      "attachment": {
+        "text_characters": 0,
+        "has_image": true,
+        "warning": null
+      },
+      "wall_seconds": 2.0504,
+      "reported_seconds": 2.048,
+      "status": "completed",
+      "product_ids": [],
+      "product_count": 0,
+      "trace": [
+        "search_catalog"
+      ],
+      "proposal": false,
+      "tool_calls": [
+        {
+          "name": "search_catalog",
+          "arguments": {
+            "query": "автоматический выключатель IEK ВА47-29 KARAT C63 230/400V 4500A 1P по фото"
+          },
+          "result_count": 0
+        }
+      ],
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 1611,
+        "output_tokens": 47,
+        "total_tokens": 1658
+      },
+      "llm_used": true,
+      "manager": false,
+      "criteria": {
+        "catalog_product_found": false,
+        "model_was_used": true,
+        "cart_stays_empty": true
+      },
+      "completed_bool": false,
+      "under_8_seconds": true,
+      "text": "Точного совпадения в каталоге не нашёл. Уточни артикул или ключевые параметры.",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "natural_selection",
+      "prompt": "Нужен однополюсный автомат C16 на 230 В, 4.5 кА с сертификатом. Подбери из каталога.",
+      "wall_seconds": 2.8132,
+      "reported_seconds": 2.81,
+      "status": "completed",
+      "product_ids": [
+        19281,
+        18412,
+        22266,
+        20404
+      ],
+      "product_count": 4,
+      "trace": [
+        "search_catalog"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 850,
+        "output_tokens": 36,
+        "total_tokens": 886
+      },
+      "llm_used": true,
+      "manager": false,
+      "criteria": {
+        "catalog_products_returned": true,
+        "at_least_one_matches_requested_specs": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "Нашёл варианты в каталоге. Уточни нужное количество или главный параметр.\n\nF34116 EZ9 ВА 1ф 16А 4,5кА SchnEl (12)\nАртикул: 010400239_ · ID 19281\nЦена: 1420 ₸ · Остаток: 7441 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; KOLICHESTVOVREZERVE: 495; insta: Y; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/easy9_avtomaticheskie_vyklyuchateli_i_uzo/f34116_ez9_va_1f_16a_4_5ka_schnel_12_/\nПо складам: Шымкент (ул.Байдукова): 165; Алматы: 4650; Усть-Каменогорск: 331; Тараз: 107; Атырау: 429\n\nВА 101 1P 16А 4,5кА С (12) DEKraft\nАртикул: 11054DEK · ID 18412\nЦена: 384 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; VES: Германия; OBYEM: уличное освещение; GLUBINA: WI-FI; insta: Y\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/va_101_1_63_a_dekraft/va_101_1p_16a_4_5ka_s_12_dekraft/\n\nF34216 EZ9 ВА 2ф 16А 4,5кА SchnEl (6)\nАртикул: 010400264_ · ID 22266\nЦена: 3390 ₸ · Остаток: 443 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 2; Отключающая способность: 4,5кА; Напряжение: 400В; Номинальный ток: 16 А; Характеристика срабатывания: C; KOLICHESTVOVREZERVE: 12; insta: Y; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/easy9_avtomaticheskie_vyklyuchateli_i_uzo/f34216_ez9_va_2f_16a_4_5ka_schnel_6_/\nПо складам: Шымкент (ул.Байдукова): 3; Алматы: 327; Усть-Каменогорск: 4; Тараз: 5; Атырау: 34\n\nВА47-29 (1ф) 16А TDM (120) !!!\nАртикул: 011100119_ · ID 20404\nЦена: 180 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 16 А; Характеристика срабатывания: C; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/nizkovoltnaya_apparatura/modulnye_avtomaticheskie_vyklyuchateli/va47_29_1f_16a_tdm_120_/",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "large_excel_bounded_partial",
+      "prompt": "Проверь приложенный каталог Excel и найди первую товарную строку. Если файл прочитан не весь, не утверждай обратное.",
+      "source_file": "C:\\Users\\PC\\Desktop\\Хакатон\\data\\catalog.xlsx",
+      "expected_limitation": "A parser rejection or bounded partial read is not counted as full task completion.",
+      "attachment": {
+        "text_characters": 0,
+        "has_image": false,
+        "warning": "Не удалось прочитать документ: он повреждён, защищён или слишком велик после распаковки. Отправьте другую копию или фото."
+      },
+      "wall_seconds": 1.4649,
+      "reported_seconds": 1.463,
+      "status": "completed",
+      "product_ids": [
+        39845,
+        29607,
+        29525,
+        29655
+      ],
+      "product_count": 4,
+      "trace": [
+        "search_catalog"
+      ],
+      "proposal": false,
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 860,
+        "output_tokens": 30,
+        "total_tokens": 890
+      },
+      "llm_used": true,
+      "manager": false,
+      "criteria": {
+        "bounded_parser_output": true,
+        "full_input_processed": false,
+        "parser_warning_present": true
+      },
+      "completed_bool": false,
+      "under_8_seconds": true,
+      "text": "Нашёл варианты в каталоге. Уточни нужное количество или главный параметр.\n\nСирена свето-звуковая беспроводная WI-FI TUYA NEW\nАртикул: 312000017_ · ID 39845\nЦена: 12000 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; KOL_VO_U_POSTAVSHCHIKA: 10; KOL_VO_CHASOV_DOSTAVKI_OT_POSTAVSHCHIKA: 48 часов\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/videonablyudenie_skud_signalizatsiya/signalizatsiya/sirena_sveto_zvukovaya_besprovodnaya_wi_fi_tuya_new/\n\nCity 9 ЩРВ-П 36 Бел/дв. SE\nАртикул: щщщ0116133 · ID 29607\nЦена: 15280 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; VES: Россия; NAZNACHENIE: Учетно-распределительные; KOLICHESTVO_MONTAZHNYKH_MODULEY: 36; KOLICHESTVO_RYADOV: 3; SPOSOB_MONTAZHA: Встраиваемый; TSVET_KRYSHKI_DVERTSY: Белый\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/shchity_easy9_box/city_9_shchrv_p_36_bel_dv_schneider_electric/\n\nCity 9 ЩРВ-П 8 Бел/дв. SE\nАртикул: щщщ0116102 · ID 29525\nЦена: 4030 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; VES: Россия; NAZNACHENIE: Учетно-распределительные; KOLICHESTVO_MONTAZHNYKH_MODULEY: 8; KOLICHESTVO_RYADOV: 1; SPOSOB_MONTAZHA: Встраиваемый; TSVET_KRYSHKI_DVERTSY: Белый\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/shchity_easy9_box/city_9_shchrv_p_8_bel_dv_schneider_electric/\n\nEasy9 корпус встраиваемый с белой дв. 2ряд/24мод\nАртикул: щщщ0116130 · ID 29655\nЦена: 10980 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nEasy9 корпус встраиваемый с белой дв. 2ряд/24мод Распределительный щиток Schneider Electric серии Easy9 Box предназначен для установки аппаратов защиты и управления бытовой электроустановки. Щиток встраивается в стену, имеет 2 DIN-рейки для установки 24 аппаратов по 18 мм. Дверь щитка - белая, может быть установлена с правой или левой стороны. Функции • Встраиваемые и навесные корпуса щитов Easy9 Box предназначены для установки модульного оборудования на объектах жилищного и гражданского строительства • Устанавливаются внутри помещений и доступны в исполнениях на 8, 12, 18, 24 и 36 модулей • Эргономичный дизайн, легкая установка и блестящая/гладкая поверхность • Перфорированные отверстия для ввода кабелей с 4 сторон щита • От 1 до 3 DIN-реек в зависимости от № по каталогу • В комплект пост\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/shchity_easy9_box/easy9_korpus_vstraivaemyy_s_beloy_dv_2ryad_24mod/",
+      "parser_handling": "rejected",
+      "token_usage_available": true
+    },
+    {
+      "scenario": "jpeg_vision",
+      "prompt": "Определи тип товара по фотографии и найди подходящие позиции в каталоге. Не угадывай нечитаемые параметры.",
+      "attachment": {
+        "text_characters": 0,
+        "has_image": true,
+        "warning": null
+      },
+      "wall_seconds": 1.8755,
+      "reported_seconds": 1.873,
+      "status": "completed",
+      "product_ids": [
+        18242,
+        18189,
+        21280,
+        33708
+      ],
+      "product_count": 4,
+      "trace": [
+        "search_catalog"
+      ],
+      "proposal": false,
+      "tool_calls": [
+        {
+          "name": "search_catalog",
+          "arguments": {
+            "query": "автоматический выключатель EKT KARAT C63 230/400V 4500 изображение"
+          },
+          "result_count": 5
+        }
+      ],
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 1660,
+        "output_tokens": 38,
+        "total_tokens": 1698
+      },
+      "llm_used": true,
+      "token_usage_available": true,
+      "manager": false,
+      "criteria": {
+        "catalog_product_found": true,
+        "model_was_used": true,
+        "cart_stays_empty": true
+      },
+      "completed_bool": true,
+      "under_8_seconds": true,
+      "text": "По фото нашёл кандидатов. Проверь маркировку: изображение серии не гарантирует точного совпадения артикула.\n\nНашёл варианты в каталоге. Уточни нужное количество или главный параметр.\n\nF34263 EZ9 ВА 2ф 63А 4,5кА SchnEl (6)\nАртикул: 010400270_ · ID 18242\nЦена: 5240 ₸ · Остаток: 102 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 2; Отключающая способность: 4,5кА; Напряжение: 400В; Номинальный ток: 63А; Характеристика срабатывания: C; KOLICHESTVOVREZERVE: 6; insta: Y; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/easy9_avtomaticheskie_vyklyuchateli_i_uzo/f34263_ez9_va_2f_63a_4_5ka_schnel_6_/\nПо складам: Шымкент (ул.Байдукова): 3; Алматы: 37; Усть-Каменогорск: 9; Атырау: 18; Караганда: 4\n\nBM63-1XС 63A КЭАЗ (12) !!!\nАртикул: 010800078_ · ID 18189\nЦена: 757 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 6кА; Напряжение: 230В; Номинальный ток: 63А; Характеристика срабатывания: C; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/avtomaticheskie_vyklyuchateli/bm63_1xs_63a_keaz_12_/\n\nF34163 EZ9 ВА 1ф 63А 4,5кА SchnEl (12)\nАртикул: 010400250_ · ID 21280\nЦена: 2460 ₸ · Остаток: 1217 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 4,5кА; Напряжение: 230В; Номинальный ток: 63А; Характеристика срабатывания: C; insta: Y; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTROYSTVA: Автоматический выключатель с тепловым расцепителем\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/easy9_avtomaticheskie_vyklyuchateli_i_uzo/f34163_ez9_va_1f_63a_4_5ka_schnel_12_/\nПо складам: Шымкент (ул.Байдукова): 1; Алматы: 1117; Усть-Каменогорск: 25; Тараз: 8; Атырау: 18\n\n12163 АВ (1ф) 63А Schneider Electric (12)\nАртикул: 010400574_ · ID 33708\nЦена: 4890 ₸ · Остаток: 79 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; Полюса: 1; Отключающая способность: 63кА; Напряжение: 230В; Номинальный ток: 63 А; Характеристика срабатывания: C; insta: Y; SLIDER_PHOTOS: ['101477', '101478']; NAZNACHENIE: Розетки/линии с умеренными пусковыми токами; TIP_USTANOVKI: На Din-рейку ( Модульный )\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/novinki/shchitovoe_oborudovanie_aktsiya_10/12163_av_1f_63a_schneider_electric_12/\nПо складам: Шымкент (ул.Байдукова): 5; Алматы: 50; Усть-Каменогорск: 12; Нур-Султан: 9; Шымкент (Тассай): 3"
+    },
+    {
+      "scenario": "large_excel_bounded_partial",
+      "prompt": "Проверь приложенный каталог Excel и найди первую товарную строку. Если файл прочитан не весь, не утверждай обратное.",
+      "observed_at": "2026-09-23T12:29:13.077818+00:00",
+      "runtime": {
+        "started_at": "2026-09-23T12:29:08.350152+00:00",
+        "model": "gpt-5.4-mini",
+        "research_model": "gpt-5.4-mini",
+        "model_timeout_seconds": 5.2,
+        "response_timeout_seconds": 7.2,
+        "code_sha256": {
+          "app/agent.py": "4b10d54e639e9e5c9c8929d57d907f1d2b25850114011068f9c52e00f5a4cae8",
+          "app/catalog.py": "5e4605158cc7b7578c2836141a26222ba7ded85eec33a75b01107a5be840afe8",
+          "app/attachments.py": "afbd3f591aa7109414479eae5a06e28bbafcc7b3187b672e27342398d0589d9c",
+          "app/config.py": "db736211caea745c9b18e11ff8b518412821e2208dc0c487d1e2ca755ae0e77a"
+        },
+        "catalog_source": {
+          "file": "C:\\Users\\PC\\Desktop\\Хакатон\\data\\raw_details.jsonl",
+          "size_bytes": 48671603,
+          "products": 15035
+        }
+      },
+      "source_file": "C:\\Users\\PC\\Desktop\\Хакатон\\data\\catalog.xlsx",
+      "timing_scope": "File read, parse, first-row verification and Assistant.reply.",
+      "expected_limitation": "A parser rejection or bounded partial read is not counted as full task completion.",
+      "attachment_processing_seconds": 0.0265,
+      "attachment": {
+        "text_characters": 20000,
+        "has_image": false,
+        "warning": "Прочитаны только первые 100 строк Excel суммарно по листам; остальная часть файла не прочитана. Текст сокращён до 20 000 символов. Отправьте оставшуюся часть отдельным файлом."
+      },
+      "wall_seconds": 1.5149,
+      "reported_seconds": 1.485,
+      "status": "completed",
+      "product_ids": [
+        42107,
+        39845,
+        29607,
+        29525
+      ],
+      "product_count": 4,
+      "trace": [
+        "search_catalog"
+      ],
+      "proposal": false,
+      "tool_calls": [
+        {
+          "name": "search_catalog",
+          "arguments": {
+            "query": "первая товарная строка в приложенном Excel каталоге"
+          },
+          "user_id": "flow:large-excel",
+          "result_count": 5
+        }
+      ],
+      "proposal_items": [],
+      "tokens": {
+        "input_tokens": 7914,
+        "output_tokens": 29,
+        "total_tokens": 7943
+      },
+      "llm_used": true,
+      "token_usage_available": true,
+      "manager": false,
+      "criteria": {
+        "bounded_parser_output": true,
+        "parser_warning_present": true,
+        "first_product_found": false,
+        "full_input_processed": false
+      },
+      "completed_bool": false,
+      "under_8_seconds": true,
+      "text": "Нашёл варианты в каталоге. Уточни нужное количество или главный параметр.\n\nВидеокамера IP Wi-Fi беспроводная Поворотная уличная 2Мп 2.8 IP65 CS-C8C-A0-1F2WF Lite EZVIZ NEW\nАртикул: 311100909_ · ID 42107\nЦена: 32900 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; GLUBINA: WI-FI; TOLSHCHINA: уличная; VYSOTA_UPAKOVKI_MM: поворотная; VYKHODNOE_NAPRYAZHENIE_: 65\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/videonablyudenie_skud_signalizatsiya/videokamery/videokamera_ip_wi_fi_besprovodnaya_povorotnaya_ulichnaya_2mp_2_8_ip65_cs_c8c_a0_1f2wf_lite_ezviz_new/\n\nСирена свето-звуковая беспроводная WI-FI TUYA NEW\nАртикул: 312000017_ · ID 39845\nЦена: 12000 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; KOL_VO_U_POSTAVSHCHIKA: 10; KOL_VO_CHASOV_DOSTAVKI_OT_POSTAVSHCHIKA: 48 часов\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/videonablyudenie_skud_signalizatsiya/signalizatsiya/sirena_sveto_zvukovaya_besprovodnaya_wi_fi_tuya_new/\n\nCity 9 ЩРВ-П 36 Бел/дв. SE\nАртикул: щщщ0116133 · ID 29607\nЦена: 15280 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; VES: Россия; NAZNACHENIE: Учетно-распределительные; KOLICHESTVO_MONTAZHNYKH_MODULEY: 36; KOLICHESTVO_RYADOV: 3; SPOSOB_MONTAZHA: Встраиваемый; TSVET_KRYSHKI_DVERTSY: Белый\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/shchity_easy9_box/city_9_shchrv_p_36_bel_dv_schneider_electric/\n\nCity 9 ЩРВ-П 8 Бел/дв. SE\nАртикул: щщщ0116102 · ID 29525\nЦена: 4030 ₸ · Остаток: 0 (снимок каталога; перед добавлением проверю заново)\nХарактеристики: Минимальная партия: 1; VES: Россия; NAZNACHENIE: Учетно-распределительные; KOLICHESTVO_MONTAZHNYKH_MODULEY: 8; KOLICHESTVO_RYADOV: 1; SPOSOB_MONTAZHA: Встраиваемый; TSVET_KRYSHKI_DVERTSY: Белый\nПрямой ссылки на сертификат в доступной карточке нет.\nhttps://ekt.kz/catalog/spets_predlozhenie/shchity_easy9_box/city_9_shchrv_p_8_bel_dv_schneider_electric/",
+      "partial_processing_succeeded": false,
+      "parser_handling": "partial",
+      "expected_first_article": "ярп4520",
+      "expected_first_product_id": 45357
+    }
+  ],
+  "initial_suite_wall_seconds": 30.6839,
+  "current_invocation_selection": [
+    "large_excel_bounded_partial"
+  ],
+  "suite_wall_seconds": 12.3366,
+  "summary": {
+    "scenarios": 15,
+    "completed": 14,
+    "incomplete": [
+      "large_excel_bounded_partial"
+    ],
+    "all_observed_under_8_seconds": true,
+    "max_wall_seconds": 6.6045,
+    "total_tokens": 17067,
+    "useful_partial_processing": [
+      "large_excel_bounded_partial"
+    ],
+    "token_usage_note": "Sum of reported usage for current result rows only. Timed-out calls may have unreported usage; prior attempts are stored separately.",
+    "unreported_usage_scenarios": []
+  }
+}
