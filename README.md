@@ -183,3 +183,5 @@ dotnet ef database update --project MemoryMunchers/MemoryMunchers
 
 На сайте, агента можно найти тут:
 <img width="1787" height="875" alt="Агент" src="https://github.com/user-attachments/assets/1a0146ad-eae3-46e9-92fd-26a3545d4eee" />
+
+## Есть еще алтернативная версия решения на python в ветке `alternative_version`.
