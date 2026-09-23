@@ -104,7 +104,6 @@ python -m http.server 5500 --directory frontend
 | --- | --- |
 | `http://localhost:5500/` | Каталог товаров с чатом **Помощник** |
 | `http://localhost:5500/basket.html` | Корзина |
-| `http://localhost:5500/agents.html` | Чат с агентами |
 
 Фронтенд по умолчанию обращается к API по адресу `http://localhost:5187`. Изменить адрес можно в блоке **API connection** на странице.
 

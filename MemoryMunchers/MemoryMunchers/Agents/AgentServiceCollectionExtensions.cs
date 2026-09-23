@@ -1,6 +1,5 @@
 using MemoryMunchers.Agents.OpenAI;
 using MemoryMunchers.Agents.Persistence;
-using MemoryMunchers.Agents.Tools;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
@@ -29,7 +28,6 @@ public static class AgentServiceCollectionExtensions
         services.AddScoped<IAgentSessionLock, PostgresAgentSessionLock>();
         services.AddScoped<IAgentSessionService, AgentSessionService>();
         services.AddScoped<IAgentRunner, AgentRunner>();
-        services.AddScoped<IAgentTool, GetCurrentTimeTool>();
         services.AddHttpClient<IAgentModelClient, OpenAiResponsesClient>((provider, client) =>
         {
             client.Timeout = TimeSpan.FromSeconds(provider.GetRequiredService<IOptions<OpenAiOptions>>()
