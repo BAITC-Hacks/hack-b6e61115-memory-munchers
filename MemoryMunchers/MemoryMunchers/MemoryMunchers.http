@@ -4,3 +4,39 @@ GET {{MemoryMunchers_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{MemoryMunchers_HostAddress}}/api/agents
+
+### Create a session, then copy its id into @sessionId below.
+POST {{MemoryMunchers_HostAddress}}/api/agent-sessions
+Content-Type: application/json
+
+{
+  "agentId": "weather-assistant",
+  "title": "Forecast discussion",
+  "additionalInstructions": "Keep answers concise."
+}
+
+###
+@sessionId = 00000000-0000-0000-0000-000000000000
+
+POST {{MemoryMunchers_HostAddress}}/api/agent-sessions/{{sessionId}}/runs
+Content-Type: application/json
+
+{
+  "message": "What time is it, and what forecasts have we saved?"
+}
+
+### Continue the same conversation.
+POST {{MemoryMunchers_HostAddress}}/api/agent-sessions/{{sessionId}}/runs
+Content-Type: application/json
+
+{
+  "message": "Which of those is the warmest?"
+}
+
+### Inspect persisted history and run results.
+GET {{MemoryMunchers_HostAddress}}/api/agent-sessions/{{sessionId}}
+
+###
+GET {{MemoryMunchers_HostAddress}}/api/agent-sessions?skip=0&take=20
