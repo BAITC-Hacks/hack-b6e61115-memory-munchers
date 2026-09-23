@@ -25,6 +25,7 @@ public sealed class OpenAiResponsesClient(HttpClient httpClient, IOptions<OpenAi
             }),
             parallel_tool_calls = false,
             max_output_tokens = options.Value.MaxOutputTokens,
+            reasoning = new { effort = options.Value.ReasoningEffort },
             store = false,
             include = new[] { "reasoning.encrypted_content" }
         });
