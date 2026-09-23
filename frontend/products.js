@@ -7,8 +7,8 @@ const ui = Object.fromEntries([
   'first-page', 'previous-page', 'next-page', 'last-page'
 ].map(id => [id, document.getElementById(id)]));
 const state = { apiUrl: DEFAULT_PRODUCTS_API_URL, page: 1, pageSize: 20, totalPages: 0, loaded: false, busy: false };
-const countFormat = new Intl.NumberFormat();
-const priceFormat = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 });
+const countFormat = new Intl.NumberFormat('ru-RU');
+const priceFormat = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 2 });
 
 function notice(message, kind = '') {
   ui['catalog-status'].textContent = message;
@@ -26,9 +26,11 @@ function setBusy(busy) {
 }
 
 function normalizeApiUrl(value) {
-  const url = new URL(value.trim());
+  let url;
+  try { url = new URL(value.trim()); }
+  catch { throw new Error('Введите корректный адрес сервера, начинающийся с http:// или https://.'); }
   if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.search || url.hash) {
-    throw new Error('Enter an HTTP or HTTPS API address without credentials, a query, or a fragment.');
+    throw new Error('Введите адрес сервера с протоколом HTTP или HTTPS без логина, пароля, параметров запроса и фрагмента после #.');
   }
   return url.href.replace(/\/+$/, '');
 }
@@ -38,14 +40,22 @@ async function request(path, method = 'GET') {
   try {
     response = await fetch(`${state.apiUrl}/api/products${path}`, { method, headers: { Accept: 'application/json' } });
   } catch {
-    throw new Error('Could not reach the API. Check the API connection address and that the server is running. For HTTPS, trust its development certificate.');
+    throw new Error('Не удалось подключиться к серверу. Проверьте адрес и доступность сервера. При использовании HTTPS убедитесь, что сертификат сервера доверенный.');
   }
   const data = await response.json().catch(() => null);
   if (!response.ok) {
-    const validation = data?.errors ? Object.values(data.errors).flat().join(' ') : '';
-    throw new Error(data?.detail || validation || data?.title || `The API replied with ${response.status}.`);
+    if (data?.title === 'Catalog file not found') {
+      throw new Error('Файл каталога не найден на сервере. Обратитесь к администратору.');
+    }
+    const messages = {
+      400: 'Некорректные параметры запроса. Проверьте настройки и повторите попытку.',
+      404: 'Каталог не найден. Проверьте адрес сервера.',
+      422: 'Файл каталога содержит некорректные данные. Обратитесь к администратору.',
+      503: 'Сервер временно недоступен. Повторите попытку позже.'
+    };
+    throw new Error(messages[response.status] || `Сервер вернул ошибку (код ${response.status}). Повторите попытку позже.`);
   }
-  if (!data) throw new Error('The API returned an invalid response.');
+  if (!data) throw new Error('Сервер вернул некорректный ответ.');
   return data;
 }
 
@@ -53,7 +63,7 @@ function renderCatalogStatus(catalog) {
   ui['expected-count'].textContent = countFormat.format(catalog.expectedCount);
   ui['database-count'].textContent = countFormat.format(catalog.databaseCount);
   ui['missing-count'].textContent = countFormat.format(catalog.missingCount);
-  ui['catalog-badge'].textContent = catalog.isComplete ? 'Verified' : 'Count mismatch';
+  ui['catalog-badge'].textContent = catalog.isComplete ? 'Проверено' : 'Количество не совпадает';
   ui['catalog-badge'].classList.toggle('warning', !catalog.isComplete);
 }
 
@@ -76,7 +86,7 @@ function productLink(value) {
 
 function renderProducts(products) {
   if (!products.length) {
-    emptyRows('No products are available. Use Check & refresh to check the catalog again.');
+    emptyRows('Товаров пока нет. Нажмите «Проверить и обновить», чтобы проверить каталог ещё раз.');
     return;
   }
   const fragment = document.createDocumentFragment();
@@ -94,7 +104,7 @@ function renderProducts(products) {
     }
     const code = document.createElement('span');
     code.className = 'product-code';
-    code.textContent = `${product.code || 'No code'} · ID ${product.id}`;
+    code.textContent = `${product.code || 'Без кода'} · ИД ${product.id}`;
     productCell.append(name, code);
     row.append(productCell);
     const price = value => value == null ? '—' : `${priceFormat.format(value)} ${product.currency}`.trim();
@@ -118,7 +128,7 @@ function renderProducts(products) {
 
 async function loadPage(page, pageSize) {
   const result = await request(`?page=${page}&pageSize=${pageSize}`);
-  if (!Array.isArray(result.items)) throw new Error('The API returned an invalid product list.');
+  if (!Array.isArray(result.items)) throw new Error('Сервер вернул некорректный список товаров.');
   renderProducts(result.items);
   state.page = result.page;
   state.pageSize = result.pageSize;
@@ -127,53 +137,53 @@ async function loadPage(page, pageSize) {
   ui['page-size'].value = String(result.pageSize);
   const first = result.items.length ? (result.page - 1) * result.pageSize + 1 : 0;
   const last = result.items.length ? first + result.items.length - 1 : 0;
-  ui['range-label'].textContent = `${countFormat.format(first)}–${countFormat.format(last)} of ${countFormat.format(result.totalCount)} products`;
-  ui['page-label'].textContent = result.totalPages ? `Page ${result.page} of ${result.totalPages}` : 'Page 0 of 0';
+  ui['range-label'].textContent = `Товары ${countFormat.format(first)}–${countFormat.format(last)} из ${countFormat.format(result.totalCount)}`;
+  ui['page-label'].textContent = result.totalPages ? `Страница ${countFormat.format(result.page)} из ${countFormat.format(result.totalPages)}` : 'Страница 0 из 0';
 }
 
 async function initializeCatalog() {
   if (state.busy) return;
   state.loaded = false;
   setBusy(true);
-  emptyRows('Preparing the catalog…');
-  ui['range-label'].textContent = 'Waiting for products';
-  ui['page-label'].textContent = 'Page —';
+  emptyRows('Подготовка каталога…');
+  ui['range-label'].textContent = 'Ожидание товаров';
+  ui['page-label'].textContent = 'Страница —';
   for (const id of ['expected-count', 'database-count', 'missing-count']) ui[id].textContent = '—';
-  ui['catalog-badge'].textContent = 'Checking';
+  ui['catalog-badge'].textContent = 'Проверка';
   ui['catalog-badge'].classList.remove('warning');
-  notice('Checking the saved products against the catalog…', 'working');
+  notice('Сверка сохранённых товаров с каталогом…', 'working');
   try {
     let catalog = await request('/status');
     renderCatalogStatus(catalog);
     if (catalog.requiresImport) {
-      ui['catalog-badge'].textContent = 'Importing';
-      notice(`Saving ${countFormat.format(catalog.missingCount)} missing products. This may take a moment…`, 'working');
+      ui['catalog-badge'].textContent = 'Импорт';
+      notice(`Сохранение недостающих товаров: ${countFormat.format(catalog.missingCount)}. Это может занять некоторое время…`, 'working');
       catalog = await request('/import', 'POST');
       renderCatalogStatus(catalog);
     }
-    if (catalog.missingCount > 0) throw new Error('Some catalog products are still missing. Use Check & refresh to retry.');
-    notice('Loading products…', 'working');
+    if (catalog.missingCount > 0) throw new Error('Часть товаров из каталога ещё не сохранена. Нажмите «Проверить и обновить», чтобы повторить попытку.');
+    notice('Загрузка товаров…', 'working');
     await loadPage(1, state.pageSize);
     if (catalog.isComplete) {
       notice(catalog.importedCount
-        ? `Added ${countFormat.format(catalog.importedCount)} products. All ${countFormat.format(catalog.expectedCount)} catalog products are ready.`
-        : `All ${countFormat.format(catalog.expectedCount)} catalog products are saved. The count matches.`, 'success');
+        ? `Добавлено товаров: ${countFormat.format(catalog.importedCount)}. Все товары из каталога доступны (всего ${countFormat.format(catalog.expectedCount)}).`
+        : `Все товары из каталога сохранены (всего ${countFormat.format(catalog.expectedCount)}). Количество совпадает.`, 'success');
     } else {
-      notice(`All catalog products are saved. The database also contains ${countFormat.format(catalog.unexpectedCount)} products outside this catalog, so the total count differs.`, 'warning');
+      notice(`Все товары из каталога сохранены. В базе данных также есть товары вне каталога: ${countFormat.format(catalog.unexpectedCount)}. Поэтому общее количество отличается.`, 'warning');
     }
   } catch (error) {
     notice(error.message, 'error');
-    ui['catalog-badge'].textContent = 'Needs attention';
+    ui['catalog-badge'].textContent = 'Требует внимания';
     ui['catalog-badge'].classList.add('warning');
-    emptyRows('Products could not be loaded. Check the message above, then use Check & refresh to retry.');
-    ui['range-label'].textContent = 'Products unavailable';
+    emptyRows('Не удалось загрузить товары. Прочитайте сообщение выше и нажмите «Проверить и обновить», чтобы повторить попытку.');
+    ui['range-label'].textContent = 'Товары недоступны';
   } finally { setBusy(false); }
 }
 
 async function changePage(page, pageSize = state.pageSize) {
   if (state.busy) return;
   setBusy(true);
-  notice('Loading products…', 'working');
+  notice('Загрузка товаров…', 'working');
   try {
     await loadPage(page, pageSize);
     notice('');
@@ -190,6 +200,12 @@ ui['first-page'].addEventListener('click', () => changePage(1));
 ui['previous-page'].addEventListener('click', () => changePage(state.page - 1));
 ui['next-page'].addEventListener('click', () => changePage(state.page + 1));
 ui['last-page'].addEventListener('click', () => changePage(state.totalPages));
+ui['api-url'].addEventListener('invalid', () => {
+  ui['api-url'].setCustomValidity(ui['api-url'].validity.valueMissing
+    ? 'Введите адрес сервера.'
+    : 'Введите корректный адрес сервера, начинающийся с http:// или https://.');
+});
+ui['api-url'].addEventListener('input', () => ui['api-url'].setCustomValidity(''));
 ui['connection-form'].addEventListener('submit', event => {
   event.preventDefault();
   if (state.busy) return;
