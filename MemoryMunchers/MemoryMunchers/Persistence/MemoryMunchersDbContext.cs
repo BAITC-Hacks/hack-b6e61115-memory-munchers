@@ -18,6 +18,7 @@ public sealed class MemoryMunchersDbContext(DbContextOptions<MemoryMunchersDbCon
     public DbSet<Basket> Baskets => Set<Basket>();
     public DbSet<BasketProposal> BasketProposals => Set<BasketProposal>();
     public DbSet<ProductInventory> ProductInventory => Set<ProductInventory>();
+    public DbSet<ProductCertificate> ProductCertificates => Set<ProductCertificate>();
     public DbSet<ChatAttachment> ChatAttachments => Set<ChatAttachment>();
     public DbSet<ChatEvent> ChatEvents => Set<ChatEvent>();
 
@@ -30,6 +31,16 @@ public sealed class MemoryMunchersDbContext(DbContextOptions<MemoryMunchersDbCon
         modelBuilder.Entity<BasketItem>().Property(i => i.Quantity).HasPrecision(18, 3);
         modelBuilder.Entity<ProductInventory>().HasKey(i => i.ProductId);
         modelBuilder.Entity<ProductInventory>().Property(i => i.ProductId).ValueGeneratedNever();
+        modelBuilder.Entity<ProductCertificate>(entity =>
+        {
+            entity.HasIndex(c => c.ProductId);
+            entity.HasOne<Product>().WithMany().HasForeignKey(c => c.ProductId).OnDelete(DeleteBehavior.Cascade);
+            entity.Property(c => c.Number).HasMaxLength(200);
+            entity.Property(c => c.Type).HasMaxLength(300);
+            entity.Property(c => c.IssuedBy).HasMaxLength(300);
+            entity.Property(c => c.Url).HasMaxLength(2000);
+            entity.Property(c => c.FileName).HasMaxLength(255);
+        });
         modelBuilder.Entity<BasketProposal>().Property(p => p.LinesJson).HasColumnType("jsonb");
         modelBuilder.Entity<BasketProposal>().HasIndex(p => new { p.RunId, p.CallId }).IsUnique();
         modelBuilder.Entity<BasketProposal>().HasIndex(p => new { p.ShopperId, p.SessionId });

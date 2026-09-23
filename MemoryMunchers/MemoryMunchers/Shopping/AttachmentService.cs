@@ -160,7 +160,9 @@ public sealed class AttachmentService(MemoryMunchersDbContext db, ShopperContext
     private static AgentException Invalid(string message) => new("invalid_attachment", message, 400);
 }
 
-public sealed class AttachmentCleanup(IServiceScopeFactory scopes, TimeProvider clock, ILogger<AttachmentCleanup> logger) : BackgroundService
+// Retention policy: expired attachments, and dialogs (with their events and proposals) idle longer than SessionRetentionDays.
+public sealed class DataRetentionCleanup(IServiceScopeFactory scopes, IOptions<ShoppingOptions> options, TimeProvider clock,
+    ILogger<DataRetentionCleanup> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -172,9 +174,15 @@ public sealed class AttachmentCleanup(IServiceScopeFactory scopes, TimeProvider 
                 await using var scope = scopes.CreateAsyncScope();
                 var db = scope.ServiceProvider.GetRequiredService<MemoryMunchersDbContext>();
                 await db.ChatAttachments.Where(a => a.ExpiresAt <= clock.GetUtcNow()).ExecuteDeleteAsync(stoppingToken);
+                var cutoff = clock.GetUtcNow().AddDays(-options.Value.SessionRetentionDays);
+                var stale = db.AgentSessions.Where(s => s.UpdatedAt < cutoff).Select(s => s.Id);
+                await db.ChatEvents.Where(e => stale.Contains(e.SessionId)).ExecuteDeleteAsync(stoppingToken);
+                await db.BasketProposals.Where(p => stale.Contains(p.SessionId)).ExecuteDeleteAsync(stoppingToken);
+                await db.ChatAttachments.Where(a => stale.Contains(a.SessionId)).ExecuteDeleteAsync(stoppingToken);
+                await db.AgentSessions.Where(s => s.UpdatedAt < cutoff).ExecuteDeleteAsync(stoppingToken);
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested) { return; }
-            catch (Exception error) { logger.LogWarning(error, "Attachment cleanup failed"); }
+            catch (Exception error) { logger.LogWarning(error, "Data retention cleanup failed"); }
         } while (await timer.WaitForNextTickAsync(stoppingToken));
     }
 }

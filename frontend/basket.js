@@ -26,6 +26,7 @@
     const link = document.getElementById('checkout-link'); const checkout = safeUrl(data.checkoutUrl);
     link.hidden = !checkout || !data.items.length; if (checkout) link.href = checkout;
     document.getElementById('checkout-note').hidden = Boolean(checkout) || !data.items.length;
+    document.getElementById('checkout-handoff').hidden = link.hidden;
   }
   async function load() { if (busy) return; setBusy(true); notice('Загружаю корзину…'); try { render(await api('/api/basket')); notice(); } catch (error) { notice(error.message, true); } finally { setBusy(false); } }
   async function change(id, quantity) {

@@ -16,7 +16,7 @@ public sealed class BasketService(MemoryMunchersDbContext db, ShopperContext sho
             p.Price * basket.Items.Single(i => i.ProductId == p.Id).Quantity)).ToArray();
         return new(basket?.Version ?? 0, lines, lines.Where(l => l.Total.HasValue).GroupBy(l => l.Product.Currency)
             .ToDictionary(g => g.Key, g => g.Sum(l => l.Total!.Value)), lines.Any(l => !l.Total.HasValue),
-            options.Value.RequireVerifiedStock, ShopJson.SafeUrl(options.Value.CheckoutUrl));
+            options.Value.RequireVerifiedStock, ShopJson.SafeUrl(options.Value.CheckoutUrl), ShopJson.SafeUrl(options.Value.BasketUrl));
     }
 
     public async Task<ProposalView> PrepareAsync(Guid sessionId, Guid runId, string callId,
@@ -95,7 +95,8 @@ public sealed class BasketService(MemoryMunchersDbContext db, ShopperContext sho
         proposal.ConfirmedAt = clock.GetUtcNow();
         db.ChatEvents.Add(new ChatEvent { SessionId = proposal.SessionId, Kind = "basket_confirmed",
             CreatedAt = clock.GetUtcNow(), PayloadJson = ShopJson.Write(new { proposalId = proposal.Id,
-                message = "Товары добавлены в корзину после подтверждения.", lines }) });
+                message = "Товары добавлены в корзину после подтверждения.", lines,
+                basketUrl = ShopJson.SafeUrl(options.Value.BasketUrl), checkoutUrl = ShopJson.SafeUrl(options.Value.CheckoutUrl) }) });
         await db.SaveChangesAsync(token);
         await transaction.CommitAsync(token);
         return await GetAsync(token);
@@ -174,5 +175,6 @@ public sealed class BasketService(MemoryMunchersDbContext db, ShopperContext sho
         await db.BasketProposals.SingleOrDefaultAsync(p => p.Id == id && p.ShopperId == shopper.Id, token)
         ?? throw new AgentException("proposal_not_found", "Предложение не найдено.", 404);
     private ProposalView View(BasketProposal p) => new(p.Id, p.SessionId,
-        p.Status == "pending" && p.ExpiresAt <= clock.GetUtcNow() ? "expired" : p.Status, p.ExpiresAt, ShopJson.Read<ProposalLine[]>(p.LinesJson));
+        p.Status == "pending" && p.ExpiresAt <= clock.GetUtcNow() ? "expired" : p.Status, p.ExpiresAt, ShopJson.Read<ProposalLine[]>(p.LinesJson),
+        ShopJson.SafeUrl(options.Value.BasketUrl));
 }

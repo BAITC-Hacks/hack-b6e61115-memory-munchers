@@ -2,10 +2,11 @@ using System.ComponentModel.DataAnnotations;
 using MemoryMunchers.Agents;
 using MemoryMunchers.Shopping;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MemoryMunchers.Controllers;
 
-[ApiController, Route("api/basket")]
+[ApiController, Route("api/basket"), EnableRateLimiting("basket")]
 public sealed class BasketController(BasketService basket) : ControllerBase
 {
     [HttpGet]

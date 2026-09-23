@@ -2,10 +2,11 @@ using System.ComponentModel.DataAnnotations;
 using MemoryMunchers.Agents;
 using MemoryMunchers.Shopping;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MemoryMunchers.Controllers;
 
-[ApiController, Route("api/product-chat/sessions")]
+[ApiController, Route("api/product-chat/sessions"), EnableRateLimiting("basket")]
 public sealed class ProductChatController(IAgentSessionService sessions, IAgentRunner runner,
     ProductChatService chat, AttachmentService attachments, AgentEventSink events, ILogger<ProductChatController> logger) : ControllerBase
 {
@@ -22,7 +23,7 @@ public sealed class ProductChatController(IAgentSessionService sessions, IAgentR
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id, CancellationToken token) => Ok(await chat.GetAsync(id, token));
 
-    [HttpPost("{id:guid}/messages")]
+    [HttpPost("{id:guid}/messages"), EnableRateLimiting("chat")]
     public async Task<IActionResult> Message(Guid id, ChatMessageRequest request, CancellationToken token)
     {
         await attachments.RequireSessionAsync(id, token);
@@ -61,7 +62,7 @@ public sealed class ProductChatController(IAgentSessionService sessions, IAgentR
         return new EmptyResult();
     }
 
-    [HttpPost("{id:guid}/attachments"), RequestSizeLimit(6 * 1024 * 1024), RequestFormLimits(MultipartBodyLengthLimit = 6 * 1024 * 1024)]
+    [HttpPost("{id:guid}/attachments"), EnableRateLimiting("upload"), RequestSizeLimit(6 * 1024 * 1024), RequestFormLimits(MultipartBodyLengthLimit = 6 * 1024 * 1024)]
     public async Task<IActionResult> Upload(Guid id, IFormFile file, CancellationToken token) => Ok(await attachments.UploadAsync(id, file, token));
 }
 

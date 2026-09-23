@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="MemoryMunchers/MemoryMunchers.csproj" />
   <Project Path="MemoryMunchers.Tests/MemoryMunchers.Tests.csproj" />
+  <Project Path="MemoryMunchers/MemoryMunchers.csproj" />
 </Solution>

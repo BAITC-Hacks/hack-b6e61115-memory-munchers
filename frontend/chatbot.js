@@ -1,5 +1,5 @@
 (() => {
-  const { api, fetchApi, el, price, number, badge, productCard } = window.Shop;
+  const { api, fetchApi, el, price, number, badge, productCard, safeUrl } = window.Shop;
   const launcher = el('button', 'chat-launcher', '✦ Помощник');
   launcher.type = 'button'; launcher.setAttribute('aria-haspopup', 'dialog'); launcher.setAttribute('aria-controls', 'product-chat');
   const dialog = el('dialog', 'chat-dialog'); dialog.id = 'product-chat'; dialog.setAttribute('aria-labelledby', 'chat-title');
@@ -12,7 +12,7 @@
   const all = el('button', 'chat-text-button', '← Все диалоги'); all.type = 'button';
   const reset = el('button', 'chat-text-button', 'Новый диалог'); reset.type = 'button';
   const refresh = el('button', 'chat-text-button', 'Обновить'); refresh.type = 'button';
-  const basketLink = el('a', '', 'Корзина →'); basketLink.href = './basket.html'; toolbar.append(all, reset, refresh, basketLink);
+  const basketLink = el('a', '', 'Корзина →'); basketLink.href = window.Shop.basketUrl; basketLink.dataset.basketLink = ''; toolbar.append(all, reset, refresh, basketLink);
   const sessions = el('div', 'chat-sessions'); sessions.setAttribute('role', 'list'); sessions.setAttribute('aria-label', 'Ранее начатые диалоги');
   const history = el('div', 'chat-history'); history.setAttribute('role', 'log'); history.setAttribute('aria-label', 'История консультации'); history.setAttribute('aria-live', 'polite');
   const status = el('div', 'chat-status'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
@@ -25,7 +25,8 @@
   const fileInput = el('input'); fileInput.type = 'file'; fileInput.multiple = true; fileInput.hidden = true; fileInput.accept = '.jpg,.jpeg,.pdf,.doc,.docx,.xls,.xlsx';
   const send = el('button', 'shop-primary', 'Отправить'); send.type = 'submit'; controls.append(attach, el('span', 'shop-muted', 'До 3 файлов · 5 МБ каждый'), send);
   form.append(input, controls, fileInput);
-  const footnote = el('p', 'chat-footnote', 'Добавление в корзину — только после вашего подтверждения. Цены и доступность — по данным каталога.');
+  const footnote = el('p', 'chat-footnote', 'Добавление в корзину — только после вашего подтверждения. Цены и доступность — по данным каталога. Не отправляйте в чат персональные данные: диалоги видны только в этом браузере и удаляются через 30 дней. ');
+  const forget = el('button', 'chat-text-button', 'Удалить мои данные'); forget.type = 'button'; footnote.append(forget);
   dialog.append(header, toolbar, sessions, history, context, files, status, form, footnote);
   document.body.append(launcher, dialog);
   let sessionId = null, busy = false, selectedProduct = null, uploaded = [], pending = null, snapshot = null, opening = null, connectionEpoch = 0, view = 'list';
@@ -68,7 +69,7 @@
       actions.append(confirm, cancel); card.append(actions);
     } else if (['expired', 'stale'].includes(proposal.status)) {
       const update = el('button', 'chat-text-button', 'Обновить предложение'); update.type = 'button'; update.addEventListener('click', () => proposalAction(proposal.id, 'refresh')); card.append(update);
-    } else if (proposal.status === 'confirmed') { const link = el('a', '', 'Перейти в корзину →'); link.href = './basket.html'; card.append(link); }
+    } else if (proposal.status === 'confirmed') { const link = el('a', 'chat-basket-link', 'Перейти в корзину →'); link.href = safeUrl(proposal.basketUrl) || window.Shop.basketUrl; card.append(link); }
     history.append(card);
   }
   function render(data) {
@@ -86,15 +87,20 @@
     else if (latest && ['Failed', 'Cancelled'].includes(latest.status)) setStatus('Последний запрос не завершён. Черновик можно отправить заново.', true);
     scroll();
     function renderProducts(runId) {
-      const products = new Map();
+      const products = new Map(), reasons = new Map();
       data.events.filter(e => e.runId === runId).forEach(event => {
-        const list = Array.isArray(event.payload) ? event.payload : event.payload.candidates?.map(c => c.product) || [];
-        list.forEach(p => products.set(p.id, p));
+        if (Array.isArray(event.payload)) { event.payload.forEach(p => products.set(p.id, p)); return; }
+        if (event.payload.original && !products.has(event.payload.original.id)) products.set(event.payload.original.id, event.payload.original);
+        (event.payload.candidates || []).forEach(c => { products.set(c.product.id, c.product); if (c.reason) reasons.set(c.product.id, c); });
       });
       if (!products.size) return;
       const group = el('div', 'chat-product-cards');
       [...products.values()].slice(0, 8).forEach(p => {
-        const card = productCard(p); const choose = el('button', 'chat-text-button', 'Выбрать количество'); choose.type = 'button';
+        const card = productCard(p); const candidate = reasons.get(p.id);
+        if (candidate) { card.classList.add('shop-alternative');
+          card.prepend(el('span', 'shop-alternative-label', `Аналог · сходство ${Math.round((candidate.relevance || 0) * 100)}%`));
+          card.append(el('span', 'shop-reason', `Почему предложен: ${candidate.reason}`),
+            el('span', 'shop-muted', 'Совместимость не подтверждена — сверьте критичные параметры.')); } const choose = el('button', 'chat-text-button', 'Выбрать количество'); choose.type = 'button';
         choose.addEventListener('click', () => { selectedProduct = p.id; context.textContent = `Товар: ${p.name}`; context.hidden = false;
           input.value = `Хочу добавить товар ${p.code || p.name}. Количество: `; input.focus(); }); card.append(choose); group.append(card);
       }); history.append(group);
@@ -193,6 +199,13 @@
     try { await ensureSession(); for (const file of selected) { setStatus(`Загружаю ${file.name}…`); const body = new FormData(); body.append('file', file);
       uploaded.push(await api(`/api/product-chat/sessions/${sessionId}/attachments`, { method: 'POST', body })); } setStatus('Файлы готовы. Добавьте вопрос и отправьте сообщение.'); }
     catch (error) { setStatus(error.message, true); } finally { setBusy(false); renderFiles(); }
+  });
+  forget.addEventListener('click', async () => {
+    if (busy || !window.confirm('Удалить все ваши диалоги, файлы и корзину? Это действие нельзя отменить.')) return;
+    setBusy(true);
+    try { await api('/api/shopper', { method: 'DELETE' }); window.Shop.forgetToken(); sessionId = null; snapshot = null; clearDraft(); startNew();
+      badge({ items: [] }); setStatus('Ваши данные удалены.'); }
+    catch (error) { setStatus(error.message, true); } finally { setBusy(false); }
   });
   launcher.addEventListener('click', open); close.addEventListener('click', () => dialog.close());
   dialog.addEventListener('close', () => { launcher.setAttribute('aria-expanded', 'false'); launcher.focus(); });
