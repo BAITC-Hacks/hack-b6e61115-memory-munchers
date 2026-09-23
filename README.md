@@ -9,6 +9,14 @@ This is a dependency-free sample page for `GET /WeatherForecast`.
 2. In another terminal, serve this folder on port 5500 with `python -m http.server 5500 --directory frontend`.
 3. Open `http://localhost:5500` in a browser.
 
+## Agent chat UI
+
+Open `http://localhost:5500/agents.html`, or choose **Agent chat** on the forecast page. The page uses the same static server as the forecast UI and defaults to the API's HTTP launch profile at `http://localhost:5187`. Expand **API connection** to change this address; it is remembered in your browser. For the HTTPS launch profile, use `https://localhost:7147` and trust the development certificate with `dotnet dev-certs https --trust`.
+
+Choose an agent and start a conversation, optionally supplying a title and additional instructions. Send messages with Enter (Shift + Enter adds a new line), reopen saved conversations from the sidebar, and use **Load more** to see older sessions. Replies appear when the agent finishes; **Refresh chat** reloads saved messages and the latest run status.
+
+The page calls `GET /api/agents`, `POST /api/agent-sessions`, `GET /api/agent-sessions?skip=…&take=…`, `GET /api/agent-sessions/{sessionId}`, and `POST /api/agent-sessions/{sessionId}/runs`. Run the API with its configured PostgreSQL database available and set the API key described below to receive agent replies.
+
 ## OpenAI agent access
 
 The web API registers the agent workflow through `AddAgenticWorkflow` and calls the OpenAI Responses API. Configure the API key with the `OpenAI__ApiKey` environment variable (or .NET user secrets).
