@@ -30,7 +30,6 @@ public static class AgentServiceCollectionExtensions
         services.AddScoped<IAgentSessionService, AgentSessionService>();
         services.AddScoped<IAgentRunner, AgentRunner>();
         services.AddScoped<IAgentTool, GetCurrentTimeTool>();
-        services.AddScoped<IAgentTool, GetSavedForecastsTool>();
         services.AddHttpClient<IAgentModelClient, OpenAiResponsesClient>((provider, client) =>
         {
             client.Timeout = TimeSpan.FromSeconds(provider.GetRequiredService<IOptions<OpenAiOptions>>()

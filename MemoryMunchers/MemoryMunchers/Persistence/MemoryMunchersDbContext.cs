@@ -6,12 +6,11 @@ namespace MemoryMunchers.Persistence;
 
 /// <summary>
 /// EF Core database context for the Memory Munchers API.
-/// Stores forecasts, products, and durable agent conversations.
+/// Stores products and durable agent conversations.
 /// </summary>
 public sealed class MemoryMunchersDbContext(DbContextOptions<MemoryMunchersDbContext> options)
     : DbContext(options)
 {
-    public DbSet<WeatherForecast> WeatherForecasts => Set<WeatherForecast>();
     public DbSet<AgentSession> AgentSessions => Set<AgentSession>();
     public DbSet<AgentRun> AgentRuns => Set<AgentRun>();
     public DbSet<Product> Products => Set<Product>();

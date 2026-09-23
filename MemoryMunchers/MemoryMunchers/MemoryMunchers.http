@@ -1,6 +1,6 @@
 @MemoryMunchers_HostAddress = http://localhost:5187
 
-GET {{MemoryMunchers_HostAddress}}/weatherforecast/
+GET {{MemoryMunchers_HostAddress}}/api/products?page=1&pageSize=20
 Accept: application/json
 
 ###
@@ -12,8 +12,8 @@ POST {{MemoryMunchers_HostAddress}}/api/agent-sessions
 Content-Type: application/json
 
 {
-  "agentId": "weather-assistant",
-  "title": "Forecast discussion",
+  "agentId": "memory-munchers-assistant",
+  "title": "Getting started",
   "additionalInstructions": "Keep answers concise."
 }
 
@@ -24,7 +24,7 @@ POST {{MemoryMunchers_HostAddress}}/api/agent-sessions/{{sessionId}}/runs
 Content-Type: application/json
 
 {
-  "message": "What time is it, and what forecasts have we saved?"
+  "message": "What time is it now?"
 }
 
 ### Continue the same conversation.
@@ -32,7 +32,7 @@ POST {{MemoryMunchers_HostAddress}}/api/agent-sessions/{{sessionId}}/runs
 Content-Type: application/json
 
 {
-  "message": "Which of those is the warmest?"
+  "message": "Can you show that time in UTC?"
 }
 
 ### Inspect persisted history and run results.
