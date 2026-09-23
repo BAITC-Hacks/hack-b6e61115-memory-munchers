@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101a2b" />
+  <title>Skyline — Add a forecast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./add.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="Skyline forecast home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>skyline<span class="brand-dot">.</span></span>
+      </a>
+      <a class="back-link" href="./index.html">← Back to forecast</a>
+    </header>
+
+    <section class="intro add-intro">
+      <div class="eyebrow"><span class="eyebrow-line"></span> MAKE IT YOURS</div>
+      <h1>Add a forecast<span>.</span></h1>
+      <p class="intro-copy">Save a weather outlook for a day ahead.</p>
+    </section>
+
+    <section class="forecast-card form-card" aria-labelledby="form-title">
+      <div class="card-heading">
+        <div><div class="section-kicker">NEW OUTLOOK</div><h2 id="form-title">Forecast details <span class="sun-icon" aria-hidden="true">☀</span></h2></div>
+      </div>
+      <form id="forecast-form" class="forecast-form">
+        <label for="date">Date</label>
+        <input id="date" name="date" type="date" required />
+
+        <label for="temperatureC">Temperature <span class="field-unit">°C</span></label>
+        <input id="temperatureC" name="temperatureC" type="number" min="-100" max="100" step="1" placeholder="e.g. 18" required />
+
+        <label for="summary">Conditions</label>
+        <select id="summary" name="summary" required>
+          <option value="" disabled selected>Choose a condition</option>
+          <option>Freezing</option><option>Bracing</option><option>Chilly</option><option>Cool</option><option>Mild</option>
+          <option>Warm</option><option>Balmy</option><option>Hot</option><option>Sweltering</option><option>Scorching</option>
+        </select>
+
+        <div id="form-status" class="status form-status" role="status" aria-live="polite"></div>
+        <div class="form-actions">
+          <a class="back-link" href="./index.html">Cancel</a>
+          <button class="refresh-button submit-button" type="submit"><span>Save forecast</span><span aria-hidden="true">→</span></button>
+        </div>
+      </form>
+      <div class="card-footer"><span><span class="footer-spark">✦</span> Your forecast will appear in the outlook</span></div>
+    </section>
+    <footer class="page-footer"><span>MADE FOR CLEARER DAYS</span><span class="footer-coordinates">SKYLINE FORECAST</span></footer>
+  </main>
+</body>
+</html>

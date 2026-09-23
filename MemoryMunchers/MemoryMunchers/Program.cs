@@ -1,4 +1,12 @@
+using MemoryMunchers.AgenticAccess;
+using MemoryMunchers.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAgenticAccess(builder.Configuration);
+builder.Services.AddDbContext<MemoryMunchersDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("MemoryMunchers")));
 
 // Add services to the container.
 
@@ -22,6 +30,12 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<MemoryMunchersDbContext>();
+    await dbContext.Database.MigrateAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
